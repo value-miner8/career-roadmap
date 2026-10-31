@@ -108,8 +108,8 @@ textarea.f{min-height:64px;line-height:1.5;overflow:hidden}
 .btn.ghost{background:transparent;color:var(--navy)}
 .btn.danger{background:transparent;color:var(--red);border-color:var(--red)}
 .btn[disabled]{opacity:.35;cursor:default}
-:root[data-theme="dark"] .btn:not(.ghost){color:#10131c}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn:not(.ghost){color:#10131c}}
+:root[data-theme="dark"] .btn:not(.ghost):not(.danger){color:#10131c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn:not(.ghost):not(.danger){color:#10131c}}
 .pg{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 
 /* cover */
