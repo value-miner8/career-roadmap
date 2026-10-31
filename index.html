@@ -321,9 +321,14 @@ var STG={
  2:{name:"커리어 로드맵 2단계 _ Where",sub:"내 능력을 발휘할 수 있는 곳은 어디(Where)인가?"},
  3:{name:"커리어 로드맵 3단계 _ How",sub:"어떻게(How) 갈 것인가?"},
  sum:{name:"커리어 로드맵 그리기",sub:"지금까지 도출한 내용을 한 페이지에 모아 그려볼까요?"},
- howWork:{name:"커리어 로드맵 1단계 _ How",sub:"나는 지금까지 어떻게 일해 왔는가?"}
+ /* 교재(커리어로드맵 경력직 프로세스) 기준 활동지 맨 위 단계 제목 */
+ howWork:{name:"커리어 로드맵 1단계 _ How",sub:"나는 지금까지 어떻게 일해 왔는가?",c:"s1"},
+ whatHave:{name:"커리어 로드맵 2단계 _ What",sub:"나는 무엇을 가진 사람인가?",c:"s2"},
+ whereWork:{name:"커리어 로드맵 3단계 _ Where",sub:"나는 어디서 일할 것인가?",c:"s3"},
+ brand:{name:"커리어 로드맵 4단계 _ 경력 브랜딩하기",sub:"미래의 나를 정의하면?",c:"s0"}
 };
 function stgOf(sec){return STG[sec.hd||sec.stage]}
+function stgColor(sec){var st=STG[sec.hd];return st&&st.c?st.c:sec.stage===0?"s0":sec.stage==="sum"?"ssum":"s"+sec.stage}
 /* 활동지별 작성 팁: [라벨, 내용(html)] — 내용이 있는 활동지에만 [작성 팁 보기] 버튼이 나옵니다 */
 var TIPS={
  career:[
@@ -341,35 +346,35 @@ var SECS=[
  {id:"story",stage:1,hd:"howWork",short:"성공스토리",type:"table",need:5,title:"나만의 성공스토리",hint:"아래 표에 자신이 가장 큰 성취를 했던 경험에 대해서 구체적으로 정리해 봅니다.",
   rowHead:"구분",cols:[{k:"v",label:"내용"}],cw:["24%"],
   rows:[{k:"title",label:"제목",rtype:"text"},{k:"S",label:"상황(<b>S</b>ituation)"},{k:"T",label:"목표대상(<b>T</b>arget)"},{k:"A",label:"행동(<b>A</b>ction)"},{k:"R",label:"결과(<b>R</b>esult)"}]},
- {id:"sw",stage:1,short:"강점·약점",type:"table",need:6,title:"나는 무엇을 가진 사람인가?",hint:"아래 표에 자신의 What을 정리해 봅니다.",
+ {id:"sw",stage:1,hd:"whatHave",short:"강점·약점",type:"table",need:6,title:"나는 무엇을 가진 사람인가?",hint:"아래 표에 자신의 What을 정리해 봅니다.",
   rowHead:"구분",cols:[{k:"s",label:"자신의 강점(Strength)"},{k:"w",label:"자신의 약점(Weakness)"}],cw:["16%"],
   rows:[{k:"know",label:"지식"},{k:"skill",label:"기술"},{k:"exp",label:"경험"},{k:"trait",label:"성격"}]},
- {id:"values",stage:1,short:"핵심가치",type:"table",need:6,title:"내가 중요하게 생각하는 직업적 가치",hint:"아래 표에 자신의 핵심가치를 정리해 봅니다.",
+ {id:"values",stage:1,hd:"whatHave",short:"핵심가치",type:"table",need:6,title:"내가 중요하게 생각하는 직업적 가치",hint:"아래 표에 자신의 핵심가치를 정리해 봅니다.",
   cols:[{k:"v",label:"나의 핵심가치",w:"34%"},{k:"why",label:"설정 이유"}],rows:5,addable:true},
- {id:"three",stage:1,short:"3가지",type:"three",need:4,title:"내가 세상에 내 놓을 3가지"},
- {id:"where",stage:2,short:"일할 곳",type:"table",need:4,title:"어디에서 일할 것인가?",hint:"아래 표에 자신의 능력을 발휘하고 싶은 기업과 직무를 적습니다.",
+ {id:"three",stage:1,hd:"whatHave",short:"3가지",type:"three",need:4,title:"내가 세상에 내 놓을 3가지"},
+ {id:"where",stage:2,hd:"whereWork",short:"일할 곳",type:"table",need:4,title:"어디에서 일할 것인가?",hint:"아래 표에 자신의 능력을 발휘하고 싶은 기업과 직무를 적습니다.",
   quote:"어디로 향해야 할지 모르는 사람에게 순풍이란 없다. _ 세네카",
   rowHead:"구분",cols:[{k:"co",label:"기업/산업"},{k:"env",label:"근무환경"},{k:"pri",label:"우선순위",w:"14%"}],cw:["9%"],
   rows:[{k:"r1",label:"1"},{k:"r2",label:"2"},{k:"r3",label:"3"},{k:"r4",label:"4"}]},
- {id:"swot",stage:2,short:"SWOT",type:"swot",need:5,title:"나의 SWOT 분석"},
- {id:"future",stage:2,short:"10년 후",type:"future",need:10,title:"나의 10년 후 미래",hint:"아래 표에 현재 나의 커리어와 10년 후 미래에 나의 커리어변화가 느껴 질 수 있도록 적어 주세요."},
- {id:"ten",stage:2,short:"10가지",type:"table",need:5,title:"진정 이루고 싶은 10가지",
+ {id:"swot",stage:2,hd:"whereWork",short:"SWOT",type:"swot",need:5,title:"나의 SWOT 분석"},
+ {id:"future",stage:2,hd:"whereWork",short:"10년 후",type:"future",need:10,title:"나의 10년 후 미래",hint:"아래 표에 현재 나의 커리어와 10년 후 미래에 나의 커리어변화가 느껴 질 수 있도록 적어 주세요."},
+ {id:"ten",stage:2,hd:"whereWork",short:"10가지",type:"table",need:5,title:"진정 이루고 싶은 10가지",
   rowHead:"구분",cols:[{k:"v",label:"내용"}],cw:["9%"],
   rows:[1,2,3,4,5,6,7,8,9,10].map(function(n){return{k:"r"+n,label:String(n)}})},
- {id:"life",stage:2,short:"100년살이",type:"life",need:8,title:"하루살이 벗어나 100년살이"},
- {id:"remember",stage:2,short:"리멤버",type:"remember",need:2,title:"당신은 어떤 사람으로 기억되고 싶은가?"},
- {id:"role",stage:3,short:"롤모델",type:"table",need:4,title:"내가 닮고 싶은 역할 롤모델",
+ {id:"life",stage:2,hd:"whereWork",short:"100년살이",type:"life",need:8,title:"하루살이 벗어나 100년살이"},
+ {id:"remember",stage:2,hd:"brand",short:"리멤버",type:"remember",need:2,title:"당신은 어떤 사람으로 기억되고 싶은가?"},
+ {id:"role",stage:3,hd:"brand",short:"롤모델",type:"table",need:4,title:"내가 닮고 싶은 역할 롤모델",
   quote:"행동이 없으면 변화도 없다. 행동이 제한되어 있으면 변화도 제한된다. 행동이 많을 때 변화가 일어날 수 있다. _ 캐서린 펄시퍼",
   cols:[{k:"name",label:"이름",w:"16%"},{k:"prof",label:"프로필"},{k:"why",label:"존경 계기"},{k:"plan",label:"나의 계획"}],rows:3,addable:true},
- {id:"partner",stage:3,short:"파트너",type:"table",need:5,title:"나의 파트너",
+ {id:"partner",stage:3,hd:"brand",short:"파트너",type:"table",need:5,title:"나의 파트너",
   cols:[{k:"name",label:"이름",w:"14%"},{k:"org",label:"소속/업무",w:"18%"},{k:"rel",label:"관계",w:"14%"},{k:"why",label:"선정이유"},{k:"help",label:"후원 받을 내용"}],rows:3,addable:true},
- {id:"customer",stage:3,short:"고객",type:"table",need:4,title:"나의 고객",
+ {id:"customer",stage:3,hd:"brand",short:"고객",type:"table",need:4,title:"나의 고객",
   rowHead:"구분",cols:[{k:"v",label:"내용"}],cw:["30%"],
   rows:[{k:"who",label:"내가 돕고 싶은 대상은?"},{k:"way",label:"내가 잘하는 방식은?<br>(코칭 / 전략 / 분석 / 공감)"},{k:"value",label:"내가 전하고 싶은 가치는?"},{k:"kw",label:"어떤 키워드를 담고 싶은가?"}]},
- {id:"action",stage:3,short:"Action Plan",type:"table",need:3,title:"변화를 끌어내는 Action Plan",
+ {id:"action",stage:3,hd:"brand",short:"Action Plan",type:"table",need:3,title:"변화를 끌어내는 Action Plan",
   rowHead:"구분",cols:[{k:"do",label:"전략 수행 내용"},{k:"chk",label:"실행 체크",ctype:"check",w:"16%"},{k:"due",label:"마감일",ctype:"date",w:"20%"}],cw:["20%"],
   rows:[{k:"k",label:"지식(Knowledge)"},{k:"s",label:"기술(Skill)"},{k:"a",label:"자세(Attitude)"}]},
- {id:"decl",stage:3,short:"나의 선언",type:"decl",need:3,title:"나의 선언"},
+ {id:"decl",stage:3,hd:"brand",short:"나의 선언",type:"decl",need:3,title:"나의 선언"},
  {id:"summary",stage:"sum",short:"로드맵",type:"summary",need:1,title:"나의 커리어 로드맵"}
 ];
 var NAVN=SECS.length;
@@ -665,7 +670,7 @@ function introEl(){
     var cv=h("section",{class:"slide","data-stage":"0"},coverEl(ctx));return cv;
   }
   var st=stgOf(sec);
-  var s=h("section",{class:"slide","data-stage":String(sec.stage),"aria-labelledby":"t-"+sec.id},
+  var s=h("section",{class:"slide","data-stage":String(sec.stage),style:sec.hd?"--stg:var(--"+stgColor(sec)+")":null,"aria-labelledby":"t-"+sec.id},
     h("div",{class:"stagehd"},h("b",null,st.name),h("span",null,st.sub)),
     h("h2",{class:"ttl",id:"t-"+sec.id},sec.title),
     sec.hint?h("p",{class:"hint"},sec.hint):null,
@@ -699,7 +704,7 @@ function renderChips(){
   var box=$("chips");box.textContent="";
   SECS.forEach(function(sec,i){
     var stg=sec.stage===0?"navy":sec.stage;
-    var b=h("button",{class:"chip",style:"--stg:var(--"+(sec.stage===0?"s0":sec.stage==="sum"?"ssum":"s"+sec.stage)+")","data-s":secState(sec,S.d),"aria-current":(S.cur===i&&S.tab==="form")?"page":null,
+    var b=h("button",{class:"chip",style:"--stg:var(--"+stgColor(sec)+")","data-s":secState(sec,S.d),"aria-current":(S.cur===i&&S.tab==="form")?"page":null,
       onclick:function(){go(i)}},h("span",{class:"dot"}),(i+1)+". "+sec.short);
     box.append(b);
   });
@@ -1078,7 +1083,7 @@ async function buildPptx(d,name,progress){
     },
     base:function(sec,cont){
       var s=pp.addSlide(),st=stgOf(sec);made.push(s);
-      if(st&&st.name)s.addText([{text:st.name,options:{color:PC[sec.stage==="sum"?"sum":"s"+sec.stage],bold:true,fontSize:20}},{text:"    "+st.sub,options:{color:PC.ink,fontSize:12}}],{x:0.4,y:0.2,w:10.3,h:0.45,fontFace:NF,valign:"middle"});
+      if(st&&st.name)s.addText([{text:st.name,options:{color:PC[stgColor(sec)==="ssum"?"sum":stgColor(sec)],bold:true,fontSize:20}},{text:"    "+st.sub,options:{color:PC.ink,fontSize:12}}],{x:0.4,y:0.2,w:10.3,h:0.45,fontFace:NF,valign:"middle"});
       if(logo)s.addImage({data:logo,x:10.85,y:0.17,w:2.2,h:0.3});
       s.addText(sec.title+(cont?" (계속)":""),{x:PX,y:0.75,w:PW,h:0.8,fontFace:NF,fontSize:30,bold:true,color:PC.navy,align:"center",valign:"middle"});
       ctx.foot(s);
