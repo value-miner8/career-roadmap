@@ -1,0 +1,1318 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>커리어로드맵 워크북</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: 슬라이드 한 장 = 화면 한 장. 상단 고정 바(단계 칩) + 본문 슬라이드 + 하단 저작권 바. 원본 PPT의 흰 바탕, 회색 표, 단계별 제목색을 그대로 옮김 */
+:root{
+  --display:'Black Han Sans','Noto Sans KR','Malgun Gothic',sans-serif;
+  --body:'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',sans-serif;
+  --bg:#ffffff; --ink:#1f1f23; --muted:#6f737c; --hair:#e3e4e8;
+  --navy:#0a28a8; --head:#808080; --headink:#ffffff;
+  --cell:#f2f2f2; --cell2:#e6e6e6; --cell3:#cbcbcb; --gap:#ffffff; --focus:#fff8d6;
+  --bar:#d9d9d9; --teal:#3f9a86; --brown:#3b2a1e; --rule:#0a28a8; --red:#e5232b;
+  --s0:#0a28a8; --s1:#ea5a23; --s2:#00aeef; --s3:#00a651; --ssum:#00a651;
+  --ok:#0b8a4a; --warn:#b26a00; --bad:#c62828; --okbg:#e3f5ea; --warnbg:#fff1d6; --badbg:#fde6e6; --graybg:#eceef2;
+  --green:#74ad8d; --leaf:#5fa8ad; --apple:#e43d48;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#13151b; --ink:#ececf1; --muted:#9aa0ad; --hair:#2b2e38;
+  --navy:#8fa6ff; --head:#4b4f5c; --headink:#f3f3f6;
+  --cell:#22252e; --cell2:#2a2e38; --cell3:#343946; --gap:#13151b; --focus:#2f3140;
+  --bar:#22252e; --teal:#7cc4b0; --brown:#f0e6dc; --rule:#8fa6ff; --red:#ff6b6b;
+  --s0:#8fa6ff; --s1:#ff8a5c; --s2:#43c6ff; --s3:#3ddc84; --ssum:#3ddc84;
+  --ok:#5fdc9a; --warn:#f0b455; --bad:#ff8a8a; --okbg:#173a28; --warnbg:#3f3216; --badbg:#431d1d; --graybg:#262933;
+  --green:#5f9a7c; --leaf:#6fb8bd; --apple:#ff6470; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#13151b; --ink:#ececf1; --muted:#9aa0ad; --hair:#2b2e38;
+  --navy:#8fa6ff; --head:#4b4f5c; --headink:#f3f3f6;
+  --cell:#22252e; --cell2:#2a2e38; --cell3:#343946; --gap:#13151b; --focus:#2f3140;
+  --bar:#22252e; --teal:#7cc4b0; --brown:#f0e6dc; --rule:#8fa6ff; --red:#ff6b6b;
+  --s0:#8fa6ff; --s1:#ff8a5c; --s2:#43c6ff; --s3:#3ddc84; --ssum:#3ddc84;
+  --ok:#5fdc9a; --warn:#f0b455; --bad:#ff8a8a; --okbg:#173a28; --warnbg:#3f3216; --badbg:#431d1d; --graybg:#262933;
+  --green:#5f9a7c; --leaf:#6fb8bd; --apple:#ff6470; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--navy);outline-offset:2px}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--hair)}
+.top-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding-block:10px 4px}
+.brand{font-family:var(--display);font-size:20px;color:var(--navy);margin-right:auto;white-space:nowrap}
+.brand small{font-family:var(--body);font-size:12px;color:var(--teal);font-weight:700;margin-left:8px;letter-spacing:.04em}
+.tabs{display:flex;gap:4px}
+.tab{border:1px solid var(--hair);background:transparent;padding:5px 12px;border-radius:6px;font-size:13px;font-weight:500}
+.tab[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+:root[data-theme="dark"] .tab[aria-pressed="true"]{color:#10131c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tab[aria-pressed="true"]{color:#10131c}}
+.status{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:10px;white-space:nowrap}
+.status .st-err{color:var(--bad);font-weight:700}
+.meter{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.meter i{display:block;width:90px;height:6px;background:var(--cell3);border-radius:3px;overflow:hidden}
+.meter i b{display:block;height:100%;background:var(--s3);width:0}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:6px 0 10px;scrollbar-width:thin}
+.chip{flex:none;border:1px solid var(--hair);background:transparent;border-radius:999px;padding:3px 11px 3px 9px;font-size:12.5px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.chip .dot{width:8px;height:8px;border-radius:50%;background:var(--cell3)}
+.chip[data-s="done"] .dot{background:var(--s3)}
+.chip[data-s="part"] .dot{background:#f0a21a}
+.chip[aria-current="page"]{border-color:var(--stg,var(--navy));box-shadow:inset 0 -3px 0 var(--stg,var(--navy));font-weight:700}
+
+/* notices */
+.note{margin:14px 0 0;padding:10px 14px;border-radius:6px;font-size:13.5px;background:var(--warnbg);color:var(--ink)}
+.note.bad{background:var(--badbg)} .note.ok{background:var(--okbg)}
+
+/* slide */
+.slide{padding:14px 0 6px;--stg:var(--navy)}
+.slide[data-stage="1"]{--stg:var(--s1)} .slide[data-stage="2"]{--stg:var(--s2)} .slide[data-stage="3"]{--stg:var(--s3)} .slide[data-stage="sum"]{--stg:var(--ssum)}
+.stagehd{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px}
+.stagehd b{font-family:var(--display);font-weight:400;font-size:clamp(20px,3.4vw,28px);color:var(--stg);line-height:1.2}
+.stagehd span{font-size:14px}
+h2.ttl{font-family:var(--display);font-weight:400;color:var(--navy);text-align:center;font-size:clamp(26px,5.2vw,44px);line-height:1.25;margin:22px 0 26px;text-wrap:balance}
+.hint{margin:0 0 8px;font-size:15px}
+.quote{text-align:center;color:var(--muted);margin:26px 0 0;font-size:14px;text-wrap:balance}
+.tw{overflow-x:auto;padding-bottom:2px}
+table.rt{width:100%;min-width:640px;border-collapse:separate;border-spacing:2px;margin:0;table-layout:fixed}
+.rt th,.rt td{padding:0;vertical-align:middle}
+.rt thead th{background:var(--head);color:var(--headink);font-weight:500;padding:12px 8px;text-align:center;font-size:15px}
+.rt tbody th{background:var(--cell);font-weight:500;text-align:center;padding:10px 8px;font-size:15px}
+.rt td{background:var(--cell);position:relative}
+.rt .r b{color:var(--red);font-weight:700}
+.rt.alt tbody tr:nth-child(1) td,.rt.alt tbody tr:nth-child(1) th{background:var(--cell2)}
+.rt.alt tbody tr:nth-child(2) td,.rt.alt tbody tr:nth-child(2) th{background:var(--cell3)}
+.f{display:block;width:100%;border:0;background:transparent;color:inherit;font:inherit;padding:10px 10px;border-radius:0;resize:none}
+textarea.f{min-height:64px;line-height:1.5;overflow:hidden}
+.f:focus{outline:2px solid var(--stg);outline-offset:-2px;background:var(--focus)}
+.f::placeholder{color:var(--muted);opacity:.55}
+.val{padding:10px 10px;white-space:pre-wrap;word-break:break-word;min-height:44px}
+.val.empty{color:var(--muted);opacity:.6}
+.chk{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;cursor:pointer;min-height:44px}
+.chk input{width:20px;height:20px;accent-color:var(--s3)}
+.addrow{margin-top:10px;border:1px dashed var(--muted);background:transparent;padding:6px 14px;border-radius:6px;font-size:13px;color:var(--muted)}
+.addrow:hover{color:var(--ink);border-color:var(--ink)}
+.small-in{display:inline-block;width:4.2em;border:0;border-bottom:1.5px solid currentColor;background:transparent;color:inherit;font:inherit;text-align:center;padding:2px 0;border-radius:0}
+.small-in:focus{outline:2px solid var(--stg);outline-offset:2px;background:var(--focus)}
+.small-in.w2{width:3em}
+.line-in{border:0;border-bottom:3px solid var(--rule);background:transparent;color:inherit;font:inherit;padding:2px 6px;min-width:0;border-radius:0}
+.line-in:focus{outline:2px solid var(--navy);outline-offset:2px;background:var(--focus)}
+
+/* nav */
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:26px 0 0}
+.btn{border:1px solid var(--navy);background:var(--navy);color:#fff;padding:10px 22px;border-radius:6px;font-weight:700;font-size:15px}
+.btn.ghost{background:transparent;color:var(--navy)}
+.btn[disabled]{opacity:.35;cursor:default}
+:root[data-theme="dark"] .btn:not(.ghost){color:#10131c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn:not(.ghost){color:#10131c}}
+.pg{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* cover */
+.cover{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:28px;align-items:center;padding:18px 0 4px}
+.since{color:var(--teal);font-size:clamp(20px,3vw,26px);font-weight:500;letter-spacing:.03em;margin:0 0 4px}
+.rule{height:4px;background:var(--rule)}
+.ctitle{padding:20px 4px 22px;text-align:center;font-family:var(--display);color:var(--brown);line-height:1.1}
+.ctitle .en{display:block;font-size:clamp(38px,7.6vw,74px)}
+.ctitle .ko{display:block;font-size:clamp(34px,6.4vw,60px);margin-top:4px}
+.cmeta{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px 14px;align-items:center;margin:34px 0 28px;padding-left:clamp(0px,3vw,36px);font-size:18px}
+.cmeta label{letter-spacing:.35em;white-space:nowrap}
+.cmeta .line-in{width:100%;max-width:240px;border-bottom-width:2px}
+.pledge{font-size:16px;line-height:2;padding-left:clamp(0px,1vw,10px)}
+.pledge .nm{display:inline-block;min-width:9em;border-bottom:3px solid var(--rule);text-align:center;font-weight:700;padding:0 6px;min-height:1.6em;vertical-align:bottom}
+.tree{width:100%;max-width:400px;height:auto;margin:0 auto;display:block;background:#fff;border-radius:6px}
+@media (max-width:780px){.cover{grid-template-columns:1fr}.tree{max-width:340px}}
+
+/* custom blocks */
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card3{background:var(--cell);border-top:5px solid var(--c);padding:0 0 4px;border-radius:2px}
+.card3 h3{margin:0;padding:12px 12px 2px;font-size:17px;color:var(--c);font-family:var(--display);font-weight:400}
+.card3 p{margin:0;padding:0 12px 4px;font-size:12.5px;color:var(--muted)}
+.card3 textarea.f{min-height:120px}
+.jobcard{margin-top:12px;background:var(--cell);border:2px solid var(--navy);padding:0 0 4px}
+.jobcard h3{margin:0;padding:12px 12px 2px;font-family:var(--display);font-weight:400;font-size:20px;color:var(--navy)}
+.jobcard p{margin:0;padding:0 12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:700px){.three{grid-template-columns:1fr}}
+.swot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+.swot>div{background:var(--cell)}
+.swot h3{margin:0;background:var(--head);color:var(--headink);font-weight:500;font-size:15px;text-align:center;padding:10px 8px}
+.swot h3 em{font-style:normal;font-weight:700}
+.swot textarea.f{min-height:130px}
+@media (max-width:620px){.swot{grid-template-columns:1fr}}
+.goalrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:12px;font-size:16px}
+.goalrow .f{flex:1;min-width:200px;background:var(--cell)}
+.fut-h{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 8px;align-items:baseline}
+.rem{font-family:var(--display);font-size:clamp(22px,4.4vw,36px);text-align:center;margin:8px 0 18px;line-height:1.7}
+.rem .line-in{font-family:var(--display);width:min(100%,9em);text-align:center;color:var(--red);font-size:inherit}
+.rem .val{display:inline-block;padding:0 8px;color:var(--red);border-bottom:3px solid var(--rule)}
+.lab{font-weight:700;margin:16px 0 6px;font-size:15px}
+.sign{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;margin-top:18px;font-size:16px}
+.sign input.f{width:auto;background:var(--cell);padding:8px 12px}
+.cmeta input.f{background:var(--cell);max-width:240px}
+.decl p{margin:0 0 6px;font-size:16px}
+.decl .nm{display:inline-block;min-width:7em;border-bottom:3px solid var(--rule);text-align:center;font-weight:700;padding:0 6px}
+.map{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,230px) minmax(0,1fr);gap:18px 22px;align-items:center;max-width:900px;margin:0 auto}
+.map h3{margin:0 0 4px;font-size:clamp(17px,2.6vw,22px);font-weight:700}
+.map .corner{min-height:96px}
+.map .corner.r{text-align:left}
+.map .agg{white-space:pre-wrap;word-break:break-word;font-size:13.5px;color:var(--muted);max-height:9.5em;overflow:hidden}
+.map .agg.empty{opacity:.55}
+.oval{background:var(--green);color:#fff;border-radius:50%;aspect-ratio:1.8;display:grid;place-items:center;font-weight:700;font-size:clamp(16px,2.4vw,20px);width:100%}
+.kw{color:var(--red);font-weight:700;font-size:clamp(17px,2.6vw,22px);display:flex;align-items:center;gap:2px}
+.kw .line-in{color:var(--red);font-weight:700;width:min(100%,7em);border-bottom-width:2px;font-size:inherit}
+.goal{text-align:center;margin:36px 0 0;font-size:clamp(18px,3vw,26px);line-height:2}
+.goal .red{color:var(--red);font-weight:700}
+.goal .line-in{color:var(--red);font-weight:700;text-align:center;width:min(100%,9em);font-size:inherit}
+@media (max-width:640px){.map{grid-template-columns:1fr 1fr}.map .mid{grid-column:1/-1;order:-1;max-width:220px;margin:0 auto}}
+
+/* intro */
+.intro-ttl{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.intro-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(200px,300px);gap:20px 36px;align-items:center;padding-inline:clamp(0px,2vw,24px)}
+.def-hd{display:inline-block;margin:0 0 14px;font-size:clamp(18px,2.4vw,22px);font-weight:500;border-bottom:2px solid var(--ink);padding-bottom:2px}
+.def{display:flex;flex-direction:column;gap:8px;font-size:clamp(15px,2vw,18px);line-height:1.7}
+.intro-art{width:100%;max-width:300px;height:auto;display:block;margin:0 auto}
+.sub-ttl{font-size:clamp(22px,3.6vw,32px);margin:38px 0 18px}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.step{--c:var(--s1);background:var(--cell);border-top:5px solid var(--c);padding:14px 16px 12px;display:flex;flex-direction:column;gap:6px}
+.step[data-stage="2"]{--c:var(--s2)} .step[data-stage="3"]{--c:var(--s3)}
+.step-n{font-family:var(--display);color:var(--c);font-size:18px}
+.step-q{margin:0;font-size:16px;line-height:1.7}
+.step-q b{color:var(--c);font-size:1.15em}
+.step-i{margin:0;font-size:13px;color:var(--muted);line-height:1.6;flex:1}
+.step .linkbtn{align-self:flex-start;padding-left:0}
+@media (max-width:760px){.intro-top{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}.lockup{display:flex;align-items:center;gap:12px;margin-right:auto;min-width:0}
+.lockup .brand{margin-right:0}
+.logo{height:30px;width:auto;display:block;background:#fff;border-radius:4px;padding:1px}
+.exp{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.rem .line-in.nm-in{width:6.6em;color:var(--ink);font-size:.8em}
+.rem-ta textarea.f{min-height:130px}
+.oval{align-content:center;gap:4px;padding:10px 12px;text-align:center}
+.oval input{background:transparent;border:0;border-bottom:2px solid rgba(255,255,255,.85);color:#fff;text-align:center;font:inherit;font-size:.82em;width:92%;padding:2px 4px;border-radius:0}
+.oval input::placeholder{color:rgba(255,255,255,.78)}
+.oval input:focus{outline:2px solid #fff;outline-offset:2px}
+.oval span{font-size:.82em}
+/* PDF/PPTX capture: always light */
+.print{--bg:#ffffff;--ink:#1f1f23;--muted:#6f737c;--hair:#e3e4e8;--navy:#0a28a8;--head:#808080;--headink:#ffffff;--cell:#f2f2f2;--cell2:#e6e6e6;--cell3:#cbcbcb;--gap:#ffffff;--focus:#fff8d6;--bar:#d9d9d9;--teal:#3f9a86;--brown:#3b2a1e;--rule:#0a28a8;--red:#e5232b;--s0:#0a28a8;--s1:#ea5a23;--s2:#00aeef;--s3:#00a651;--ssum:#00a651;--green:#74ad8d;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55}
+.cap{width:1280px;min-height:720px;background:#fff;display:flex;flex-direction:column;padding:14px 40px 0}
+.cap .slide{padding-top:6px}
+.cap-hd{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--muted);padding-bottom:6px}
+.cap-hd img{height:30px;width:auto;display:block}
+.cap-hd b{margin-left:auto;color:var(--ink);font-size:15px}
+.cap .notice{margin:auto -40px 0}
+.cap .tw{overflow:visible}.who{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;min-width:0}.who span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}.who .linkbtn{font-size:12px}
+.gate{max-width:540px;margin:0 auto;display:flex;flex-direction:column;gap:10px}.gate-in{background:var(--cell);border-bottom:3px solid var(--rule);font-size:18px;padding:12px 14px}.gate-err{color:var(--bad);min-height:1.4em;margin:0;font-size:13.5px}.gate .btn{align-self:flex-start}
+.cs-in{border:1px solid var(--hair);background:var(--cell);color:inherit;padding:7px 10px;border-radius:6px;font:inherit;min-width:160px}
+.privacy{background:var(--cell);padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13.5px;line-height:1.7}.privacy ul{margin:6px 0 0;padding-left:18px}
+.consent{display:flex;gap:10px;align-items:flex-start;margin:10px 0;font-size:14.5px;cursor:pointer}.consent input{width:20px;height:20px;margin-top:2px;accent-color:var(--navy);flex:none}
+/* submit page */
+.sub{max-width:760px;margin:0 auto}
+.sec-list{list-style:none;margin:16px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}
+.sec-list li{display:flex;align-items:center;gap:8px;background:var(--cell);padding:8px 12px;border-radius:4px;font-size:14px}
+.sec-list li button{all:unset;cursor:pointer;flex:1;min-width:0}
+.sec-list li button:focus-visible{outline:3px solid var(--navy)}
+.tag{font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:999px;white-space:nowrap}
+.tag.done{background:var(--okbg);color:var(--ok)} .tag.part{background:var(--warnbg);color:var(--warn)} .tag.none{background:var(--graybg);color:var(--muted)} .tag.bad{background:var(--badbg);color:var(--bad)}
+.subact{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+
+/* admin */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:18px 0}
+.tile{background:var(--cell);padding:12px 14px;border-radius:6px}
+.tile b{display:block;font-family:var(--display);font-weight:400;font-size:30px;line-height:1.2;font-variant-numeric:tabular-nums}
+.tile span{font-size:12.5px;color:var(--muted)}
+.tile.ok b{color:var(--ok)} .tile.warn b{color:var(--warn)}
+.tools{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin:8px 0 12px}
+.tools input[type=search]{flex:1;min-width:160px;border:1px solid var(--hair);background:var(--cell);color:inherit;padding:8px 10px;border-radius:6px;font:inherit}
+.btn.sm{padding:6px 14px;font-size:13px}
+.at{width:100%;border-collapse:collapse;min-width:620px}
+.at th{background:var(--head);color:var(--headink);font-weight:500;padding:10px 8px;text-align:left;font-size:13.5px}
+.at td{padding:9px 8px;border-bottom:1px solid var(--hair);font-size:14px;vertical-align:middle}
+.at td.num,.at th.num{font-variant-numeric:tabular-nums}
+.bar{display:flex;align-items:center;gap:8px}
+.bar i{display:block;width:90px;height:7px;background:var(--cell3);border-radius:4px;overflow:hidden}
+.bar i b{display:block;height:100%;background:var(--s3)}
+.linkbtn{background:none;border:0;color:var(--navy);text-decoration:underline;padding:2px 4px;font-size:13.5px}
+details.roster{background:var(--cell);border-radius:6px;padding:8px 14px;margin:10px 0}
+details.roster summary{cursor:pointer;font-weight:500}
+details.roster textarea{width:100%;min-height:130px;margin-top:10px;border:1px solid var(--hair);background:var(--bg);color:inherit;padding:10px;font:inherit;border-radius:6px}
+.detail-hd{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:16px 0 4px}
+.detail-hd h2{margin:0;font-size:20px}
+.empty-state{padding:30px 16px;text-align:center;color:var(--muted);background:var(--cell);border-radius:6px}
+.notice{background:var(--bar);text-align:center;padding:11px max(16px,env(safe-area-inset-left,0px));font-weight:700;font-size:13px;margin-top:44px;color:var(--ink)}
+.notice a{color:var(--teal);text-decoration:none}
+@media (prefers-reduced-motion:no-preference){.meter i b,.bar i b{transition:width .3s}}
+</style>
+</head><body>
+
+
+<div class="top"><div class="wrap">
+  <div class="top-row">
+    <div class="lockup"><img class="logo" src="logo.jpg" alt="커리어코치협회 CCA 로고" height="30"><div class="brand">Career Roadmap<small id="courseTag">커리어코치 1급 자격과정 · 2026</small></div></div>
+    <div class="tabs" id="tabs" hidden>
+      <button class="tab" id="tabForm" aria-pressed="true">내 로드맵 작성</button>
+      <button class="tab" id="tabAdmin" aria-pressed="false">참가자 현황</button>
+    </div>
+    <div class="who" id="who" hidden></div>
+    <div class="meter" id="meter"><span id="meterTxt">0/18</span><i><b id="meterBar"></b></i></div>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </div>
+  <div class="chips" id="chips" role="navigation" aria-label="로드맵 단계"></div>
+</div></div>
+
+<main class="wrap" id="main"><div class="empty-state" style="margin-top:24px">불러오는 중…</div></main>
+<div class="notice">본 문서의 저작권은 윤코치연구소(<a href="https://www.yooncoach.com" target="_blank" rel="noopener">www.yooncoach.com</a>)에 있음을 공지합니다.</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- 설정: 독립 웹페이지로 쓸 때 이 부분을 수정합니다 ---------- */
+var CONFIG={
+  endpoint:"",       /* 구글 스크립트 웹 앱 주소(…/exec). 비워 두면 제출 기능 없이 내려받기만 됩니다. */
+  course:"2026",     /* 상단에 표시되는 과정 시기 */
+  requireCode:true,  /* 참가자 코드 입력 사용 여부 */
+  privacy:{
+    items:"성명, 이메일, 작성한 커리어 로드맵 내용",
+    purpose:"커리어코치 1급 자격과정 운영 및 피드백 제공",
+    period:"과정 종료 후 1년까지 보관한 뒤 파기",
+    contact:"flyagnes01@gmail.com"
+  }
+};
+var STANDALONE=!(window.claude&&window.claude.use);
+var REMOTE=!!CONFIG.endpoint;
+var OPEN=STANDALONE&&!REMOTE; /* 일반 웹페이지: 이메일 입력·제출 없이 바로 작성하고 내려받기 */
+var DONE_WORD=OPEN?"내려받기":"제출";
+/* ---------- helpers ---------- */
+function h(tag,attrs){
+  var e=document.createElement(tag); attrs=attrs||{};
+  Object.keys(attrs).forEach(function(k){var v=attrs[k];
+    if(k==="class")e.className=v; else if(k==="html")e.innerHTML=v;
+    else if(k.slice(0,2)==="on")e.addEventListener(k.slice(2),v);
+    else if(v!==false&&v!=null)e.setAttribute(k,v===true?"":v);});
+  for(var i=2;i<arguments.length;i++){(function add(c){
+    if(c==null||c===false)return; if(Array.isArray(c))return c.forEach(add);
+    e.append(c.nodeType?c:document.createTextNode(String(c)));})(arguments[i]);}
+  return e;
+}
+function $(id){return document.getElementById(id)}
+function strip(s){return String(s||"").replace(/<[^>]+>/g,"")}
+function norm(s){return String(s||"").replace(/\s+/g,"").toLowerCase()}
+function pad(n){return n<10?"0"+n:""+n}
+function fmtTime(ms){if(!ms)return"—";var d=new Date(ms);return (d.getMonth()+1)+"/"+d.getDate()+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
+function autosize(t){t.style.height="auto";t.style.height=Math.max(t.scrollHeight+2,64)+"px"}
+async function use(n){try{return window.claude&&window.claude.use?await window.claude.use(n):null}catch(e){return null}}
+var ls={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- schema ---------- */
+var STG={
+ 0:{name:"",sub:""},
+ 1:{name:"커리어 로드맵 1단계 _ What",sub:"내가 세상에 내놓을 것은 무엇(What)인가?"},
+ 2:{name:"커리어 로드맵 2단계 _ Where",sub:"내 능력을 발휘할 수 있는 곳은 어디(Where)인가?"},
+ 3:{name:"커리어 로드맵 3단계 _ How",sub:"어떻게(How) 갈 것인가?"},
+ sum:{name:"커리어 로드맵 그리기",sub:"지금까지 도출한 내용을 한 페이지에 모아 그려볼까요?"}
+};
+var SECS=[
+ {id:"cover",stage:0,short:"표지",type:"cover",need:3,title:"표지"},
+ {id:"intro",stage:0,short:"커리어로드맵이란",type:"intro",info:true,need:0,title:"커리어로드맵이란 무엇인가?"},
+ {id:"career",stage:1,short:"경력",type:"table",need:4,title:"지금까지 어떻게 일해 왔는가?",hint:"아래 표에 자신이 일해 왔던 내용을 정리해 봅니다.",
+  quote:"신이 우리를 이 땅에 태어나게 한 까닭을 밝히기 위해서는 신이 우리의 영혼에 놓아둔 주머니 속을 뒤져야 한다. _ 키에르케고르",
+  cols:[{k:"period",label:"근무기간",w:"15%"},{k:"co",label:"기업명",w:"17%"},{k:"role",label:"직책/직무",w:"17%"},{k:"work",label:"주요수행업무 및 성과",w:"37%"},{k:"why",label:"퇴사사유",w:"14%"}],rows:4,addable:true},
+ {id:"story",stage:1,short:"성공스토리",type:"table",need:5,title:"나만의 성공스토리",hint:"아래 표에 자신이 가장 큰 성취를 했던 경험에 대해서 구체적으로 정리해 봅니다.",
+  rowHead:"구분",cols:[{k:"v",label:"내용"}],cw:["24%"],
+  rows:[{k:"title",label:"제목",rtype:"text"},{k:"S",label:"상황(<b>S</b>ituation)"},{k:"T",label:"목표대상(<b>T</b>arget)"},{k:"A",label:"행동(<b>A</b>ction)"},{k:"R",label:"결과(<b>R</b>esult)"}]},
+ {id:"sw",stage:1,short:"강점·약점",type:"table",need:6,title:"나는 무엇을 가진 사람인가?",hint:"아래 표에 자신의 What을 정리해 봅니다.",
+  rowHead:"구분",cols:[{k:"s",label:"자신의 강점(Strength)"},{k:"w",label:"자신의 약점(Weakness)"}],cw:["16%"],
+  rows:[{k:"know",label:"지식"},{k:"skill",label:"기술"},{k:"exp",label:"경험"},{k:"trait",label:"성격"}]},
+ {id:"values",stage:1,short:"핵심가치",type:"table",need:6,title:"내가 중요하게 생각하는 직업적 가치",hint:"아래 표에 자신의 핵심가치를 정리해 봅니다.",
+  cols:[{k:"v",label:"나의 핵심가치",w:"34%"},{k:"why",label:"설정 이유"}],rows:5,addable:true},
+ {id:"three",stage:1,short:"3가지",type:"three",need:4,title:"내가 세상에 내 놓을 3가지"},
+ {id:"where",stage:2,short:"일할 곳",type:"table",need:4,title:"어디에서 일할 것인가?",hint:"아래 표에 자신의 능력을 발휘하고 싶은 기업과 직무를 적습니다.",
+  quote:"어디로 향해야 할지 모르는 사람에게 순풍이란 없다. _ 세네카",
+  rowHead:"구분",cols:[{k:"co",label:"기업/산업"},{k:"env",label:"근무환경"},{k:"pri",label:"우선순위",w:"14%"}],cw:["9%"],
+  rows:[{k:"r1",label:"1"},{k:"r2",label:"2"},{k:"r3",label:"3"},{k:"r4",label:"4"}]},
+ {id:"swot",stage:2,short:"SWOT",type:"swot",need:5,title:"나의 SWOT 분석"},
+ {id:"future",stage:2,short:"10년 후",type:"future",need:10,title:"나의 10년 후 미래",hint:"아래 표에 현재 나의 커리어와 10년 후 미래에 나의 커리어변화가 느껴 질 수 있도록 적어 주세요."},
+ {id:"ten",stage:2,short:"10가지",type:"table",need:5,title:"진정 이루고 싶은 10가지",
+  rowHead:"구분",cols:[{k:"v",label:"내용"}],cw:["9%"],
+  rows:[1,2,3,4,5,6,7,8,9,10].map(function(n){return{k:"r"+n,label:String(n)}})},
+ {id:"life",stage:2,short:"100년살이",type:"life",need:8,title:"하루살이 벗어나 100년살이"},
+ {id:"remember",stage:2,short:"리멤버",type:"remember",need:2,title:"당신은 어떤 사람으로 기억되고 싶은가?"},
+ {id:"role",stage:3,short:"롤모델",type:"table",need:4,title:"내가 닮고 싶은 역할 롤모델",
+  quote:"행동이 없으면 변화도 없다. 행동이 제한되어 있으면 변화도 제한된다. 행동이 많을 때 변화가 일어날 수 있다. _ 캐서린 펄시퍼",
+  cols:[{k:"name",label:"이름",w:"16%"},{k:"prof",label:"프로필"},{k:"why",label:"존경 계기"},{k:"plan",label:"나의 계획"}],rows:3,addable:true},
+ {id:"partner",stage:3,short:"파트너",type:"table",need:5,title:"나의 파트너",
+  cols:[{k:"name",label:"이름",w:"14%"},{k:"org",label:"소속/업무",w:"18%"},{k:"rel",label:"관계",w:"14%"},{k:"why",label:"선정이유"},{k:"help",label:"후원 받을 내용"}],rows:3,addable:true},
+ {id:"customer",stage:3,short:"고객",type:"table",need:4,title:"나의 고객",
+  rowHead:"구분",cols:[{k:"v",label:"내용"}],cw:["30%"],
+  rows:[{k:"who",label:"내가 돕고 싶은 대상은?"},{k:"way",label:"내가 잘하는 방식은?<br>(코칭 / 전략 / 분석 / 공감)"},{k:"value",label:"내가 전하고 싶은 가치는?"},{k:"kw",label:"어떤 키워드를 담고 싶은가?"}]},
+ {id:"action",stage:3,short:"Action Plan",type:"table",need:3,title:"변화를 끌어내는 Action Plan",
+  rowHead:"구분",cols:[{k:"do",label:"전략 수행 내용"},{k:"chk",label:"실행 체크",ctype:"check",w:"16%"},{k:"due",label:"마감일",ctype:"date",w:"20%"}],cw:["20%"],
+  rows:[{k:"k",label:"지식(Knowledge)"},{k:"s",label:"기술(Skill)"},{k:"a",label:"자세(Attitude)"}]},
+ {id:"decl",stage:3,short:"나의 선언",type:"decl",need:3,title:"나의 선언"},
+ {id:"summary",stage:"sum",short:"로드맵",type:"summary",need:1,title:"나의 커리어 로드맵"}
+];
+var NAVN=SECS.length;
+var TOTAL=SECS.filter(function(s){return !s.info}).length;
+var AGES=[["20대","약관"],["30대","이립"],["40대","불혹"],["50대","지명"],["60대","이순"],["70대","종심"],["80대","산수"],["90대","졸수"]];
+var THANKS="이 글을 쓰고 있는 내 자신에게 자랑스럽고 살아 있음에 감사한다.";
+var REM_EX="예) 나는 사람들이 자신의 강점을 발견하고 첫걸음을 내딛도록 곁에서 돕는 커리어코치로 기억되고 싶습니다. 따뜻하게 경청하고, 정직하게 질문하며, 끝까지 함께하는 사람이 되겠습니다.";
+var FUT=[["field","분야"],["job","직업"],["pos","직위"],["duty","직무"],["money","재산"],["family","가족구성"]];
+
+function rowsOf(sec,d){
+  if(Array.isArray(sec.rows))return sec.rows.map(function(r){return{k:r.k,label:r.label,rtype:r.rtype,labeled:true}});
+  var n=Math.max(sec.rows,parseInt(d["n:"+sec.id],10)||0),out=[];
+  for(var i=1;i<=n;i++)out.push({k:"r"+i,labeled:false,idx:i});
+  return out;
+}
+function fieldsOf(sec,d){
+  var f=[],id=sec.id;
+  function add(k,l,c){f.push({key:k,label:l,count:c!==false})}
+  if(sec.type==="table"){
+    rowsOf(sec,d).forEach(function(r,i){
+      var rl=r.labeled?strip(r.label):("행 "+(i+1));
+      sec.cols.forEach(function(c){add(id+"."+r.k+"."+c.k,rl+" - "+strip(c.label),c.ctype!=="check")});
+    });
+  }else if(sec.type==="cover"){add("cover.date","작성 날짜");add("cover.name","성명");add("cover.age","나이")}
+  else if(sec.type==="three"){add("three.like","좋아하는 것");add("three.good","잘 하는 것");add("three.meaning","의미 있는 것");add("three.job","Job")}
+  else if(sec.type==="swot"){add("swot.goal","목표");add("swot.S","강점(S)");add("swot.W","약점(W)");add("swot.O","기회(O)");add("swot.T","위협(T)")}
+  else if(sec.type==="future"){
+    add("future.y0","현재 연도");add("future.a0","현재 나이");add("future.y1","미래 연도");add("future.a1","미래 나이");
+    FUT.forEach(function(r){add("future."+r[0]+".now","현재 "+r[1]);add("future."+r[0]+".next","미래 "+r[1])});
+  }else if(sec.type==="life"){AGES.forEach(function(a){add("life."+a[0]+".task",a[0]+" 과제");add("life."+a[0]+".job",a[0]+" 직업")})}
+  else if(sec.type==="remember"){add("remember.name","성명",false);add("remember.mod","기억되고 싶은 모습(수식어)");add("remember.text","리멤버 선언문");add("remember.date","선언 날짜")}
+  else if(sec.type==="decl"){add("decl.reward","보상");add("decl.thanks","감사",false);add("decl.sign","서명");add("decl.date","날짜")}
+  else if(sec.type==="summary"){add("sum.kw","나의 강점 키워드");add("sum.kwW","나의 약점 키워드");add("sum.kwO","나의 기회 키워드");add("sum.kwT","나의 위협 키워드");add("sum.mod","로드맵 중심 수식어");add("sum.goal","(목표) 나는 ○○ 커리어코치가 될 것이다")}
+  return f;
+}
+function filledCount(sec,d){return fieldsOf(sec,d).filter(function(f){return f.count&&String(d[f.key]||"").trim()}).length}
+function secState(sec,d){if(sec.info)return"info";var n=filledCount(sec,d);return n>=sec.need?"done":(n>0?"part":"none")}
+function progressOf(d){var ids=[];SECS.forEach(function(s){if(secState(s,d)==="done")ids.push(s.id)});return ids}
+
+/* ---------- state ---------- */
+var S={d:{},cur:0,tab:"form",uid:null,email:"",verified:false,blocked:false,course:CONFIG.course,code:"",consent:false,submitting:false,submitMsg:null,myName:"",isAdmin:false,canWrite:false,db:null,downloads:null,
+  doc:{submitted:false,submittedAt:0,updatedAt:0},loaded:false,dirtyT:null,saving:false,pending:false,lastSig:"",
+  statusMsg:"",statusErr:false,rows:[],roster:[],detailUid:null,confirmSubmit:false,filter:""};
+var lsKey=function(){return "cr-draft-"+(S.email?norm(S.email):(S.uid||"anon"))};
+function courseLabel(){return String(S.course||"2026").trim()||"2026"}
+function setCourse(){var el=$("courseTag");if(el)el.textContent="커리어코치 1급 자격과정 · "+courseLabel()}
+
+/* ---------- save ---------- */
+function setStatus(msg,err){S.statusMsg=msg;S.statusErr=!!err;var el=$("status");el.textContent="";el.append(h("span",{class:err?"st-err":""},msg))}
+function currentName(){return String(S.d["cover.name"]||"").trim()||S.myName||""}
+function payload(){
+  var ids=progressOf(S.d);
+  return {v:1,uid:S.uid,email:S.email||"",name:currentName(),d:S.d,done:ids.length,total:TOTAL,doneIds:ids,
+    submitted:!!S.doc.submitted,submittedAt:S.doc.submittedAt||0,updatedAt:S.doc.updatedAt||Date.now()};
+}
+function markDirty(){
+  S.doc.updatedAt=Date.now();
+  ls.set(lsKey(),JSON.stringify({d:S.d,doc:S.doc}));
+  setStatus(S.canWrite?"저장 대기 중…":"이 기기에 임시 저장됨");
+  clearTimeout(S.dirtyT);S.dirtyT=setTimeout(flush,1000);
+}
+async function flush(){
+  clearTimeout(S.dirtyT);
+  if(!S.canWrite||!S.db||!S.uid)return;
+  if(S.saving){S.pending=true;return}
+  var p=payload(),sig=JSON.stringify([p.d,p.submitted,p.submittedAt,p.name]);
+  if(sig===S.lastSig){setStatus("저장됨 · "+fmtTime(Date.now()).split(" ")[1]);return}
+  S.saving=true;setStatus("저장 중…");
+  try{
+    await S.db.doc("roadmaps/"+S.uid).set(p);
+    S.lastSig=sig;setStatus("저장됨 · "+fmtTime(Date.now()).split(" ")[1]);
+  }catch(e){
+    if(e&&e.code==="invalid_argument"){S.canWrite=false;setStatus("이 계정은 서버에 저장할 수 없습니다. 이 기기에만 저장됩니다.",true);renderBody()}
+    else setStatus("저장 실패 · 잠시 후 다시 시도합니다",true),S.pending=true,setTimeout(function(){S.pending=false;flush()},5000);
+  }
+  S.saving=false;
+  if(S.pending){S.pending=false;flush()}
+}
+document.addEventListener("visibilitychange",function(){if(document.hidden)flush()});
+
+/* ---------- cell factory ---------- */
+function ctxOf(ro){return{ro:ro,d:ro?ro.d:S.d,set:function(k,v){S.d[k]=v;markDirty();refreshMeta()},rerender:function(){renderBody()}}}
+function cell(ctx,key,type,ph){
+  var v=ctx.d[key]||"";
+  if(ctx.ro){
+    if(type==="check")return h("div",{class:"chk",style:"cursor:default"},v?"✓ 완료":"—");
+    return h("div",{class:"val"+(v?"":" empty")},v||"—");
+  }
+  if(type==="check"){
+    var cb=h("input",{type:"checkbox",id:"f-"+key,"aria-label":"실행 체크"});cb.checked=!!v;
+    cb.addEventListener("change",function(){ctx.set(key,cb.checked?"1":"")});
+    return h("label",{class:"chk"},cb,h("span",null,"완료"));
+  }
+  var el;
+  if(type==="area"){el=h("textarea",{class:"f",id:"f-"+key,rows:"2",placeholder:ph||""});el.value=v;
+    el.addEventListener("input",function(){autosize(el);ctx.set(key,el.value)});
+    setTimeout(function(){autosize(el)},0);}
+  else{el=h("input",{class:"f",id:"f-"+key,type:type==="date"?"date":"text",placeholder:ph||""});el.value=v;
+    el.addEventListener("input",function(){ctx.set(key,el.value)});}
+  return el;
+}
+function small(ctx,key,cls,label){
+  var v=ctx.d[key]||"";
+  if(ctx.ro)return h("b",null,v||"　　");
+  var el=h("input",{class:"small-in "+(cls||""),id:"f-"+key,type:"text",inputmode:"numeric","aria-label":label});el.value=v;
+  el.addEventListener("input",function(){ctx.set(key,el.value)});return el;
+}
+function line(ctx,key,label,ph,cls){
+  var v=ctx.d[key]||"";
+  if(ctx.ro)return h("b",{style:"border-bottom:3px solid var(--rule);padding:0 8px"},v||"　　　");
+  var el=h("input",{class:"line-in"+(cls?" "+cls:""),id:"f-"+key,type:"text","aria-label":label,placeholder:ph||""});el.value=v;
+  el.addEventListener("input",function(){ctx.set(key,el.value)});return el;
+}
+
+/* ---------- section bodies ---------- */
+function tableEl(sec,ctx){
+  var rows=rowsOf(sec,ctx.d),labeled=Array.isArray(sec.rows);
+  var cg=h("colgroup");
+  if(labeled)cg.append(h("col",{style:"width:"+((sec.cw&&sec.cw[0])||"16%")}));
+  sec.cols.forEach(function(c){cg.append(h("col",c.w?{style:"width:"+c.w}:{}))});
+  var hr=h("tr");
+  if(labeled)hr.append(h("th",null,sec.rowHead||"구분"));
+  sec.cols.forEach(function(c){hr.append(h("th",null,c.label))});
+  var tb=h("tbody");
+  rows.forEach(function(r){
+    var tr=h("tr");
+    if(labeled)tr.append(h("th",{scope:"row",class:"r",html:r.label}));
+    sec.cols.forEach(function(c){
+      tr.append(h("td",null,cell(ctx,sec.id+"."+r.k+"."+c.k,c.ctype||r.rtype||"area")));
+    });
+    tb.append(tr);
+  });
+  var t=h("table",{class:"rt"},cg,h("thead",null,hr),tb);
+  var out=h("div",null,h("div",{class:"tw"},t));
+  if(sec.addable&&!ctx.ro){
+    out.append(h("button",{class:"addrow",onclick:function(){
+      S.d["n:"+sec.id]=String(rows.length+1);markDirty();renderBody();
+      setTimeout(function(){var el=$("f-"+sec.id+".r"+(rows.length+1)+"."+sec.cols[0].k);if(el)el.focus()},30);
+    }},"+ 행 추가"));
+  }
+  return out;
+}
+function boxes3(ctx){
+  function card(key,color,t,sub){return h("div",{class:"card3",style:"--c:"+color},h("h3",null,t),h("p",null,sub),cell(ctx,key,"area"))}
+  return h("div",null,
+    h("div",{class:"three"},
+      card("three.like","var(--s1)","좋아하는 것","시간 가는 줄 모르고 하는 일"),
+      card("three.good","var(--s2)","잘 하는 것","남들보다 쉽게 성과를 내는 일"),
+      card("three.meaning","var(--s3)","의미 있는 것","하고 나면 가치를 느끼는 일")),
+    h("div",{class:"jobcard"},h("h3",null,"Job"),h("p",null,"세 가지가 겹치는 곳에서 나의 일을 찾아 적어 봅니다."),cell(ctx,"three.job","area")));
+}
+function swotEl(ctx){
+  function box(key,en,ko){return h("div",null,h("h3",null,h("em",null,en)," ",ko),cell(ctx,key,"area"))}
+  var g=h("div",{class:"goalrow"},h("b",null,"(목표)"),cell(ctx,"swot.goal","text","방향(목표)을 먼저 적어 보세요"));
+  return h("div",null,g,
+    h("p",{class:"hint"},"방향이 설정되어야 SWOT 분석이 가능합니다."),
+    h("div",{class:"swot"},box("swot.S","S","강점 (Strength)"),box("swot.W","W","약점 (Weakness)"),box("swot.O","O","기회 (Opportunity)"),box("swot.T","T","위협 (Threaten)")));
+}
+function futureEl(ctx){
+  function hd(lbl,yk,ak){return h("th",null,h("div",{class:"fut-h"},h("span",null,lbl+" (20"),small(ctx,yk,"w2","연도"),h("span",null,"년) 나이 ("),small(ctx,ak,"w2","나이"),h("span",null,"세)")))}
+  var tb=h("tbody");
+  FUT.forEach(function(r){tb.append(h("tr",null,h("th",{scope:"row"},r[1]),h("td",null,cell(ctx,"future."+r[0]+".now","area")),h("td",null,cell(ctx,"future."+r[0]+".next","area"))))});
+  return h("div",{class:"tw"},h("table",{class:"rt"},h("colgroup",null,h("col",{style:"width:18%"}),h("col"),h("col")),
+    h("thead",null,h("tr",null,h("th",null,"구분"),hd("현재","future.y0","future.a0"),hd("미래","future.y1","future.a1"))),tb));
+}
+function lifeEl(ctx){
+  var hr=h("tr",null,h("th",null,""));
+  AGES.forEach(function(a){hr.append(h("th",null,a[0],h("br"),a[1]))});
+  var acts=h("tr",null,h("th",{scope:"row"},"인생",h("br"),"극장"));
+  [["1막","봄"],["2막","여름"],["3막","가을"],["4막","겨울"]].forEach(function(p){
+    acts.append(h("td",{colspan:"2",style:"text-align:center;background:var(--cell3);padding:10px 6px"},p[0],h("br"),p[1]))});
+  var task=h("tr",null,h("th",{scope:"row",style:"background:var(--cell2)"},"과제"));
+  var job=h("tr",null,h("th",{scope:"row",style:"background:var(--cell3)"},"직업"));
+  AGES.forEach(function(a){
+    task.append(h("td",{style:"background:var(--cell2)"},cell(ctx,"life."+a[0]+".task","area")));
+    job.append(h("td",{style:"background:var(--cell3)"},cell(ctx,"life."+a[0]+".job","area")));
+  });
+  var cg=h("colgroup",null,h("col",{style:"width:9%"}));AGES.forEach(function(){cg.append(h("col"))});
+  return h("div",{class:"tw"},h("table",{class:"rt",style:"min-width:760px"},cg,h("thead",null,hr),h("tbody",null,acts,task,job)));
+}
+function rememberEl(ctx){
+  if(ctx.d["remember.name"]===undefined){var cn=String(ctx.d["cover.name"]||"").trim();if(cn){if(ctx.ro)ctx=Object.assign({},ctx,{d:Object.assign({},ctx.d,{"remember.name":cn})});else ctx.d["remember.name"]=cn}}
+  var who=line(ctx,"remember.name","성명","성명 기재","nm-in");
+  var mod=line(ctx,"remember.mod","나를 설명하는 말","나만의 수식어");
+  return h("div",null,
+    h("div",{class:"rem"},"나(",who,")는 ",mod," 커리어코치로 기억되고 싶다."),
+    h("div",{class:"lab"},"리멤버 선언문"),
+    h("div",{class:"rem-ta",style:"background:var(--cell)"},cell(ctx,"remember.text","area",REM_EX)),
+    h("div",{class:"sign"},h("span",null,"선언 날짜"),cell(ctx,"remember.date","date")));
+}
+function declEl(ctx){
+  var nm=currentNameFor(ctx);
+  var thanksCell;if(ctx.ro){thanksCell=h("div",{class:"val"},ctx.d["decl.thanks"]===undefined?THANKS:ctx.d["decl.thanks"])}else{if(ctx.d["decl.thanks"]===undefined)ctx.d["decl.thanks"]=THANKS;thanksCell=cell(ctx,"decl.thanks","area")}
+  var sign=h("div",{class:"sign"},h("span",null,"서명 :"),line(ctx,"decl.sign","서명(이름 입력)","이름을 입력해 서명"),h("span",null,"(인)"),h("span",{style:"margin-left:12px"},"날짜 :"),cell(ctx,"decl.date","date"));
+  return h("div",{class:"decl"},
+    h("p",null,"나 ",h("span",{class:"nm"},nm||"　　　")," 는 이 글에 쓴 것을 특별히 기억하고 실천한다."),
+    h("p",null,"성취하였을 때, 다음과 같은 방법으로 내 자신에게 보상하겠다."),
+    h("div",{class:"tw",style:"margin-top:12px"},h("table",{class:"rt"},h("colgroup",null,h("col",{style:"width:16%"}),h("col")),
+      h("thead",null,h("tr",null,h("th",null,"구분"),h("th",null,"나의 선언 내용"))),
+      h("tbody",null,
+        h("tr",null,h("th",{scope:"row"},"보상"),h("td",null,cell(ctx,"decl.reward","area","1. "))),
+        h("tr",null,h("th",{scope:"row"},"감사"),h("td",null,thanksCell))))),
+    sign);
+}
+function currentNameFor(ctx){return String(ctx.d["cover.name"]||"").trim()}
+function aggSW(d,col){
+  var out=[];["know","skill","exp","trait"].forEach(function(r){var v=String(d["sw."+r+"."+col]||"").trim();if(v)out.push("· "+v.split("\n")[0])});
+  return out.join("\n");
+}
+function summaryEl(ctx){
+  function kwEl(key,label){
+    var wrap=h("div",{class:"kw"},"#");
+    if(ctx.ro){wrap.append(h("b",null,ctx.d[key]||""));return wrap}
+    var el=h("input",{class:"line-in",id:"f-"+key,type:"text","aria-label":label,placeholder:"키워드"});el.value=ctx.d[key]||"";
+    el.addEventListener("input",function(){ctx.set(key,el.value)});wrap.append(el);return wrap;
+  }
+  function corner(t,txt,key){return h("div",{class:"corner"},h("h3",null,t),kwEl(key,t+" 키워드"),h("div",{class:"agg"+(txt?"":" empty")},txt||"앞 단계에서 작성한 내용이 여기에 모입니다."))}
+  return h("div",null,
+    h("div",{class:"map"},
+      corner("나의 강점",aggSW(ctx.d,"s"),"sum.kw"),
+      h("div",{class:"mid",style:"grid-row:span 2"},h("div",{class:"oval"},ctx.ro?h("span",null,ctx.d["sum.mod"]||""):(function(){var el=h("input",{id:"f-sum.mod",type:"text","aria-label":"커리어코치 앞 수식어",placeholder:"나만의 수식어"});el.value=ctx.d["sum.mod"]||"";el.addEventListener("input",function(){ctx.set("sum.mod",el.value)});return el})(),h("b",null,"커리어코치"))),
+      corner("나의 약점",aggSW(ctx.d,"w"),"sum.kwW"),
+      corner("나의 기회",String(ctx.d["swot.O"]||"").trim(),"sum.kwO"),
+      corner("나의 위협",String(ctx.d["swot.T"]||"").trim(),"sum.kwT")),
+    h("div",{class:"goal"},h("div",null,"(목표) 나는"),
+      h("div",null,line(ctx,"sum.goal","목표 수식어","나의 목표")," ",h("span",{class:"red"},"커리어코치"),"가 될 것이다.")));
+}function coverEl(ctx){
+  var left=h("div",null,
+    h("p",{class:"since"},"Since 2004"),h("div",{class:"rule"}),
+    h("h1",{class:"ctitle",style:"margin:0"},h("span",{class:"en"},"Career Roadmap"),h("span",{class:"ko"},"커리어로드맵")),
+    h("div",{class:"rule"}),
+    h("div",{class:"cmeta"},
+      h("label",{for:"f-cover.date"},"작성 날짜 :"),cell(ctx,"cover.date","date"),
+      h("label",{for:"f-cover.name"},"성　　명 :"),line(ctx,"cover.name","성명","이름을 입력하세요"),
+      h("label",{for:"f-cover.age"},"나　　이 :"),h("span",null,small(ctx,"cover.age","","나이")," 세")),
+    h("div",{class:"pledge"},"나 ",h("span",{class:"nm"},currentNameFor(ctx)||"　"),"는(은)",h("br"),"내 자신의 성장과 가족의 행복을 위한 밑그림으로써",h("br"),"이 글을 쓰는데 기꺼이 헌신하겠습니다."));
+  var dateEl=left.querySelector("#f-cover\\.date");if(dateEl&&dateEl.classList)dateEl.style.maxWidth="240px";
+  return h("div",{class:"cover"},left,h("div",null,h("img",{class:"tree",src:"tree.jpg",alt:"사과가 열린 커리어 로드맵 나무 일러스트",width:"760",height:"1140",decoding:"async"})));
+}
+
+function bodyOf(sec,ctx){
+  switch(sec.type){
+    case"table":return tableEl(sec,ctx);
+    case"three":return boxes3(ctx);
+    case"swot":return swotEl(ctx);
+    case"future":return futureEl(ctx);
+    case"life":return lifeEl(ctx);
+    case"remember":return rememberEl(ctx);
+    case"decl":return declEl(ctx);
+    case"summary":return summaryEl(ctx);
+  }
+}
+function introEl(){
+  var lines=["여행을 하면서 길을 찾아 갈 때 지도를 보면서 가는 것처럼","미래상, 비전, 달성하고자 하는 목표를 수립하고","성공적인 모습으로 살아가기 위해서 자신의 강점과 약점을 분석하고,","직무 분석을 통해 자신에 적합한 직무를 미리 설계해보기 위해","한눈에 볼 수 있도록","실천계획을 수립해보는 것을 말한다."];
+  var plane='<svg viewBox="0 0 74 44" width="58" height="34" aria-hidden="true"><path d="M2 20 L70 3 L46 41 L38 26 Z" fill="var(--navy)"/><path d="M38 26 L70 3 L32 22 Z" fill="var(--s2)"/><path d="M3 29h14M8 35h12M13 41h8" stroke="var(--s2)" stroke-width="2.6" stroke-linecap="round"/></svg>';
+  var art='<svg viewBox="0 0 300 270" class="intro-art" role="img" aria-label="지도를 따라 깃발(목표)로 향하는 화살표 일러스트">'+
+    '<path d="M76 222 C80 160,118 156,168 146 C206 138,228 116,238 92" fill="none" stroke="#e49458" stroke-width="12" stroke-linecap="round"/>'+
+    '<path d="M222 96 L240 62 L260 98 Z" fill="#e49458"/>'+
+    '<rect x="228" y="10" width="7" height="70" fill="var(--bg)" stroke="var(--ink)" stroke-width="3.5"/>'+
+    '<path d="M235 14 h48 q-9 15 0 30 h-48 z" fill="var(--bg)" stroke="var(--ink)" stroke-width="3.5" stroke-linejoin="round"/>'+
+    '<rect x="30" y="196" width="96" height="66" rx="8" fill="var(--bg)" stroke="var(--ink)" stroke-width="3.5"/>'+
+    '<path d="M44 246 l12 -14 l11 14 z" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round"/>'+
+    '<circle cx="94" cy="219" r="9" fill="none" stroke="var(--ink)" stroke-width="3"/><path d="M94 228 v6" stroke="var(--ink)" stroke-width="3"/>'+
+    '<path d="M76 250 h18 M102 250 h14" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>'+
+    '<circle cx="236" cy="212" r="36" fill="var(--bg)" stroke="var(--ink)" stroke-width="3.5"/><ellipse cx="236" cy="212" rx="15" ry="36" fill="none" stroke="var(--ink)" stroke-width="2.5"/><path d="M200 212h72M208 194h56M208 230h56" stroke="var(--ink)" stroke-width="2.2" fill="none"/>'+
+    '<path d="M218 264 h36 M236 248 v16" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/></svg>';
+  var STEPS=[
+    {n:1,pre:"내가 세상에 내놓을 것은",key:"무엇(What)",post:"인가?",items:"경력 정리 · 나만의 성공스토리 · 강점과 약점 · 핵심가치 · 좋아하는 것, 잘 하는 것, 의미 있는 것"},
+    {n:2,pre:"내 능력을 발휘할 수 있는 곳은",key:"어디(Where)",post:"인가?",items:"희망 기업·직무 · SWOT 분석 · 10년 후 미래 · 이루고 싶은 10가지 · 100년살이 · 리멤버 선언문"},
+    {n:3,pre:"원하는 직업을",key:"어떻게(How)",post:" 구할 것인가?",items:"롤모델 · 파트너 · 나의 고객 · Action Plan · 나의 선언"}
+  ];
+  var cards=h("div",{class:"steps"});
+  STEPS.forEach(function(s){
+    var first=0;SECS.forEach(function(x,i){if(!first&&x.stage===s.n)first=i});
+    cards.append(h("div",{class:"step","data-stage":String(s.n)},
+      h("div",{class:"step-n"},s.n+"단계"),
+      h("p",{class:"step-q"},s.pre,h("br"),h("b",null,s.key),s.post),
+      h("p",{class:"step-i"},s.items),
+      h("button",{class:"linkbtn",onclick:function(){go(first)}},s.n+"단계로 이동 →")));
+  });
+  return h("section",{class:"slide","data-stage":"0","aria-labelledby":"t-intro"},
+    h("h2",{class:"ttl intro-ttl",id:"t-intro"},h("span",{html:plane}),"커리어로드맵이란 무엇인가?"),
+    h("div",{class:"intro-top"},
+      h("div",null,h("h3",{class:"def-hd"},"커리어 로드맵(Career Roadmap)이란"),
+        h("div",{class:"def"},lines.map(function(l){return h("span",null,l)}))),
+      h("div",{html:art})),
+    h("h2",{class:"ttl sub-ttl"},"커리어 로드맵 그리기 3단계"),
+    cards,
+    h("p",{class:"quote"},OPEN?"작성한 내용은 이 기기의 브라우저에 자동으로 저장되며, 마지막 ‘내려받기’ 단계에서 PDF나 PPTX로 내려받을 수 있습니다.":"작성한 내용은 자동으로 저장되며, 마지막 ‘제출’ 단계에서 제출합니다."));
+}function slideEl(sec,ctx){
+  if(sec.type==="intro")return introEl();
+  if(sec.type==="cover"){
+    var cv=h("section",{class:"slide","data-stage":"0"},coverEl(ctx));return cv;
+  }
+  var st=STG[sec.stage];
+  var s=h("section",{class:"slide","data-stage":String(sec.stage),"aria-labelledby":"t-"+sec.id},
+    h("div",{class:"stagehd"},h("b",null,st.name),h("span",null,st.sub)),
+    h("h2",{class:"ttl",id:"t-"+sec.id},sec.title),
+    sec.hint?h("p",{class:"hint"},sec.hint):null,
+    bodyOf(sec,ctx),
+    sec.quote?h("p",{class:"quote"},sec.quote.replace(" _ "," — ")):null);
+  return s;
+}
+
+/* ---------- participant view ---------- */
+function refreshMeta(){
+  var ids=progressOf(S.d);
+  $("meterTxt").textContent=ids.length+"/"+TOTAL;
+  $("meterBar").style.width=Math.round(ids.length/TOTAL*100)+"%";
+  var chips=$("chips").children;
+  SECS.forEach(function(sec,i){var c=chips[i];if(c)c.setAttribute("data-s",secState(sec,S.d))});
+  var ps=$("pledgeLive");
+}
+function renderChips(){
+  var box=$("chips");box.textContent="";
+  SECS.forEach(function(sec,i){
+    var stg=sec.stage===0?"navy":sec.stage;
+    var b=h("button",{class:"chip",style:"--stg:var(--"+(sec.stage===0?"s0":sec.stage==="sum"?"ssum":"s"+sec.stage)+")","data-s":secState(sec,S.d),"aria-current":(S.cur===i&&S.tab==="form")?"page":null,
+      onclick:function(){go(i)}},h("span",{class:"dot"}),(i+1)+". "+sec.short);
+    box.append(b);
+  });
+  var last=h("button",{class:"chip","data-s":S.doc.submitted?"done":"none","aria-current":(S.cur===NAVN&&S.tab==="form")?"page":null,onclick:function(){go(NAVN)}},h("span",{class:"dot"}),(NAVN+1)+". "+DONE_WORD);
+  box.append(last);
+  var cur=box.querySelector("[aria-current]");if(cur&&cur.scrollIntoView)cur.scrollIntoView({block:"nearest",inline:"center"});
+}
+function go(i){
+  S.tab="form";S.cur=Math.max(0,Math.min(NAVN,i));S.confirmSubmit=false;ls.set("cr-cur",String(S.cur));
+  renderAll();window.scrollTo({top:0});
+}
+function pager(){
+  return h("div",{class:"pager"},
+    h("button",{class:"btn ghost",disabled:S.cur===0,onclick:function(){go(S.cur-1)}},"← 이전"),
+    h("span",{class:"pg"},(S.cur+1)+" / "+(NAVN+1)),
+    h("button",{class:"btn",onclick:function(){go(S.cur+1)}},S.cur===NAVN-1?DONE_WORD+" 단계 →":"다음 →"));
+}
+function banner(){
+  if(STANDALONE)return null;
+  if(!S.loaded)return null;
+  if(!S.uid&&!S.db)return h("div",{class:"note"},"로그인 없이 보고 있습니다. 작성 내용은 이 기기에만 임시 저장되며, 제출 전에 [내 답변 내려받기]로 보관할 수 있습니다.");
+  if(!S.canWrite)return h("div",{class:"note"},"이 계정으로는 서버에 저장·제출할 수 없습니다. 작성 내용은 이 기기에만 저장됩니다. 담당자에게 기여자(Contributor) 권한을 요청해 주세요.");
+  return null;
+}
+var ERR={invalid:"이메일 또는 참가자 코드가 맞지 않습니다.",locked:"입력 시도가 너무 많아 잠시 후 다시 시도해 주세요.",inactive:"이 참가 정보는 사용할 수 없습니다. 담당자에게 문의해 주세요.",expired:"제출 기간이 지났습니다. 담당자에게 문의해 주세요.",consent:"제출 동의가 필요합니다.",server:"서버에 문제가 생겼습니다. 잠시 후 다시 시도해 주세요."};
+async function api(action,data){
+  var res=await fetch(CONFIG.endpoint,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({action:action},data||{}))});
+  return res.json();
+}
+function b64(buf){var bytes=new Uint8Array(buf),s="",n=0x8000;for(var i=0;i<bytes.length;i+=n)s+=String.fromCharCode.apply(null,bytes.subarray(i,i+n));return btoa(s)}
+function privacyBox(){
+  var p=CONFIG.privacy;
+  return h("div",{class:"privacy"},h("b",null,"개인정보 수집·이용 안내"),
+    h("ul",null,h("li",null,"수집 항목: "+p.items),h("li",null,"이용 목적: "+p.purpose),h("li",null,"보관 기간: "+p.period),h("li",null,"문의처: "+p.contact)));
+}
+function submitPage(){
+  var ids=progressOf(S.d),left=TOTAL-ids.length;
+  var edited=S.doc.submitted&&S.doc.updatedAt>S.doc.submittedAt+1500;
+  var items=h("ul",{class:"sec-list"});
+  SECS.forEach(function(sec,i){
+    if(sec.info)return;var st=secState(sec,S.d),lab=st==="done"?"완료":st==="part"?"작성 중":"미작성";
+    items.append(h("li",null,h("button",{onclick:function(){go(i)}},(i+1)+". "+sec.short),h("span",{class:"tag "+st},lab)));
+  });
+  var msg;
+  if(S.doc.submitted)msg=h("div",{class:"note ok"},"제출 완료 · "+fmtTime(S.doc.submittedAt)+(edited?" (제출 후 수정한 내용이 있습니다. 다시 제출해 주세요.)":""));
+  else msg=h("div",{class:"note"+(left?"":" ok")},left?("아직 작성이 끝나지 않은 항목이 "+left+"개 있습니다."):(OPEN?"모든 항목을 작성했습니다. 아래에서 PDF나 PPTX로 내려받아 주세요.":"모든 항목을 작성했습니다. 아래에서 제출해 주세요."));
+  var sb,consentBox=null,privacy=null;
+  if(REMOTE){
+    var cb=h("input",{type:"checkbox",id:"consent"});cb.checked=!!S.consent;
+    consentBox=h("label",{class:"consent",for:"consent"},cb,h("span",null,"위 개인정보 수집·이용 안내를 확인했으며, 작성한 내용을 협회에 제출하는 것에 동의합니다."));
+    privacy=privacyBox();
+    var lbl=S.doc.submitted?(edited?"수정본 다시 제출":"제출 완료"):(S.confirmSubmit?"미완료 항목이 있습니다. 한 번 더 누르면 제출됩니다":"동의하고 제출하기");
+    sb=h("button",{class:"btn",id:"submitBtn",disabled:!S.consent||S.submitting||(S.doc.submitted&&!edited),onclick:submitRemote},S.submitting?"제출 중…":lbl);
+    cb.addEventListener("change",function(){S.consent=cb.checked;sb.disabled=!S.consent||S.submitting||(S.doc.submitted&&!edited)});
+  }else if(OPEN){
+    sb=null;
+  }else{
+    var btnLabel=S.doc.submitted?(edited?"수정본 다시 제출":"제출 완료"):(S.confirmSubmit?"미완료 항목이 있습니다. 한 번 더 누르면 제출됩니다":"제출하기");
+    sb=h("button",{class:"btn",disabled:!S.canWrite||(S.doc.submitted&&!edited),onclick:doSubmit},btnLabel);
+  }
+  var dl=(S.downloads||STANDALONE)?exportBtns(function(){return S.d},currentName):null;
+  var sm=S.submitMsg?h("div",{class:"note "+(S.submitMsg.k==="ok"?"ok":S.submitMsg.k==="bad"?"bad":""),id:"submitMsg",role:"status"},S.submitMsg.t):null;
+  var nosave=(!S.canWrite&&!REMOTE&&!STANDALONE)?h("p",{class:"hint",style:"margin-top:12px;color:var(--muted)"},"서버에 제출할 수 없는 계정입니다. 답변을 내려받아 담당자에게 전달해 주세요."):null;
+  return h("section",{class:"slide","data-stage":"0"},
+    h("h2",{class:"ttl"},"작성 확인과 "+DONE_WORD),
+    h("div",{class:"sub"},msg,items,privacy,consentBox,sm,h("div",{class:"subact"},sb,dl),nosave,
+      OPEN?h("p",{class:"hint",style:"margin-top:12px;color:var(--muted)"},"작성한 내용은 이 기기의 이 브라우저에만 저장됩니다. 다른 기기에서는 이어서 쓸 수 없으니, 다 쓰면 꼭 내려받아 보관해 주세요."):null));
+}
+async function submitRemote(){
+  if(S.submitting||!S.consent)return;
+  var left=TOTAL-progressOf(S.d).length;
+  if(left&&!S.confirmSubmit){S.confirmSubmit=true;renderBody();return}
+  S.confirmSubmit=false;S.submitting=true;S.submitMsg={k:"",t:"제출 파일을 만드는 중… "};renderBody();
+  function say(t){S.submitMsg.t=t;var el=$("submitMsg");if(el)el.textContent=t}
+  try{
+    var pdf=await makePdf(S.d,currentName(),function(i,n){say("제출 파일을 만드는 중… "+i+"/"+n)});
+    say("협회로 보내는 중…");
+    var ids=progressOf(S.d);
+    var res=await api("submit",{email:S.email,code:S.code,name:currentName(),course:courseLabel(),done:ids.length,total:TOTAL,doneIds:ids,answers:S.d,consent:true,consentAt:Date.now(),pdfName:fileBase(currentName())+".pdf",pdfBase64:b64(pdf)});
+    if(res&&res.ok){
+      S.doc.submitted=true;S.doc.submittedAt=res.at||Date.now();S.doc.updatedAt=S.doc.submittedAt;
+      ls.set(lsKey(),JSON.stringify({d:S.d,doc:S.doc}));
+      S.submitMsg={k:"ok",t:"제출이 완료되었습니다. 협회 담당자에게 전달되었습니다."};
+    }else S.submitMsg={k:"bad",t:ERR[res&&res.error]||"제출하지 못했습니다. 잠시 후 다시 시도해 주세요."};
+  }catch(e){S.submitMsg={k:"bad",t:"제출하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요. 작성한 내용은 이 기기에 저장되어 있습니다."}}
+  S.submitting=false;renderBody();
+}
+async function doSubmit(){
+  var left=TOTAL-progressOf(S.d).length;
+  if(left&&!S.confirmSubmit){S.confirmSubmit=true;renderBody();return}
+  S.doc.submitted=true;S.doc.submittedAt=Date.now();S.doc.updatedAt=S.doc.submittedAt;S.confirmSubmit=false;
+  ls.set(lsKey(),JSON.stringify({d:S.d,doc:S.doc}));
+  S.lastSig="";await flush();renderAll();
+}
+function browserSave(filename,data){
+  var blob=data instanceof Blob?data:new Blob([data],{type:/\.csv$/i.test(filename)?"text/csv;charset=utf-8":"application/octet-stream"});
+  var u=URL.createObjectURL(blob),a=h("a",{href:u,download:filename,style:"display:none"});
+  document.body.append(a);a.click();setTimeout(function(){a.remove();URL.revokeObjectURL(u)},1500);
+}
+async function save(filename,data){
+  if(S.downloads){try{await S.downloads.save({filename:filename,data:data})}catch(e){if(e&&e.code!=="declined")setStatus("내려받기를 할 수 없습니다.",true)}return}
+  if(STANDALONE)browserSave(filename,data);
+}
+
+/* ---------- PDF / PPTX export (slides are rendered to images, then packed) ---------- */
+var LIBS={
+  h2c:["https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",function(){return window.html2canvas}],
+  pdf:["https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",function(){return window.jspdf&&window.jspdf.jsPDF}],
+  pptx:["https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js",function(){return window.PptxGenJS}]
+};
+var libP={};
+function lib(name){
+  var L=LIBS[name];
+  if(L[1]())return Promise.resolve(L[1]());
+  if(!libP[name])libP[name]=new Promise(function(res,rej){
+    var s=document.createElement("script");s.src=L[0];
+    s.onload=function(){L[1]()?res(L[1]()):rej(new Error("lib"))};
+    s.onerror=function(){libP[name]=null;rej(new Error("lib"))};
+    document.head.appendChild(s);
+  });
+  return libP[name];
+}
+function capHead(name){
+  return h("div",{class:"cap-hd"},h("img",{src:"logo.jpg",alt:"커리어코치협회 CCA",height:"30"}),
+    h("span",null,"Career Roadmap · 커리어코치 1급 자격과정 "+courseLabel()),h("b",null,name||""));
+}
+async function capturePages(d,name,progress){
+  if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+  var h2c=await lib("h2c");
+  var host=h("div",{class:"print"});host.style.cssText="position:fixed;left:-20000px;top:0;width:1280px";
+  document.body.append(host);
+  var out=[],ctx=ctxOf({d:d});
+  try{
+    for(var i=0;i<SECS.length;i++){
+      progress(i+1,SECS.length);
+      host.textContent="";
+      var page=h("div",{class:"cap"},capHead(name),slideEl(SECS[i],ctx),
+        h("div",{class:"notice",style:"margin-top:auto"},"본 문서의 저작권은 윤코치연구소(www.yooncoach.com)에 있음을 공지합니다."));
+      host.append(page);
+      await new Promise(function(r){setTimeout(r,80)});
+      var cv=await h2c(page,{scale:1.5,backgroundColor:"#ffffff",useCORS:true,logging:false});
+      out.push({url:cv.toDataURL("image/jpeg",0.9),w:cv.width,h:cv.height});
+    }
+  }finally{host.remove()}
+  return out;
+}
+/* ---------- editable PPTX (native text boxes and tables) ---------- */
+var NF="Malgun Gothic";
+var PC={navy:"0A28A8",ink:"1F1F23",gray:"808080",cell:"F2F2F2",cell2:"E6E6E6",cell3:"CBCBCB",bar:"D9D9D9",red:"E5232B",teal:"3F9A86",brown:"3B2A1E",green:"74AD8D",muted:"6F737C",white:"FFFFFF",s0:"0A28A8",s1:"EA5A23",s2:"00AEEF",s3:"00A651",sum:"00A651"};
+var PW=12.33,PX=0.5,PBOTTOM=6.95;
+function txtW(s,pt){var w=0;for(var i=0;i<s.length;i++)w+=s.charCodeAt(i)>0x2e7f?1:0.55;return w*pt/72}
+function nLines(s,pt,wIn){var n=0;String(s||"").split("\n").forEach(function(p){n+=Math.max(1,Math.ceil(txtW(p,pt)/Math.max(0.3,wIn)))});return n}
+function plain(s){return String(s||"").replace(/<br\s*\/?>/g,"\n").replace(/<[^>]+>/g,"")}
+function pDate(s){var m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||"");return m?(m[1]+"년 "+(+m[2])+"월 "+(+m[3])+"일"):(s||"")}
+function blank(s,n){return String(s||"").trim()||new Array((n||6)+1).join("＿")}
+function fsFor(s,big,mid,small){var n=String(s||"").length;return n>320?small:n>170?mid:big}
+function imgData(url){
+  return fetch(url).then(function(r){if(!r.ok)throw new Error("img");return r.blob()}).then(function(b){return new Promise(function(res,rej){var fr=new FileReader();fr.onload=function(){res(String(fr.result).replace(/^data:/,""))};fr.onerror=rej;fr.readAsDataURL(b)})});
+}
+function rowHeights(rows,colW,pt,minH){
+  return rows.map(function(r){
+    var ci=0,m=0;
+    r.cells.forEach(function(c){
+      var span=c.colspan||1,w=0;for(var k=0;k<span;k++)w+=colW[ci+k]||0;ci+=span;
+      m=Math.max(m,nLines(c.t,pt,w-0.3)*pt*1.32/72+0.24);
+    });
+    return Math.max(m,r.minH||minH);
+  });
+}
+function planTable(rows,colW,minH,avail){
+  var pts=[12,11,10,9],scales=[1,.8,.65,.5],headH=0.5,chosen=9,hs=null,i,j,tot;
+  for(j=0;j<scales.length&&!hs;j++)for(i=0;i<pts.length;i++){
+    var h0=rowHeights(rows,colW,pts[i],minH*scales[j]);
+    tot=headH+h0.reduce(function(a,b){return a+b},0);
+    if(tot<=avail){chosen=pts[i];hs=h0;break}
+  }
+  if(!hs){chosen=9;hs=rowHeights(rows,colW,9,minH*.5)}
+  var pages=[],cur=[],ch=headH;
+  rows.forEach(function(r,k){if(cur.length&&ch+hs[k]>avail){pages.push(cur);cur=[];ch=headH}cur.push(k);ch+=hs[k]});
+  pages.push(cur);
+  return {pt:chosen,hs:hs,headH:headH,pages:pages};
+}
+function mkCell(c,pt){
+  var o={fontFace:NF,fontSize:pt,color:c.color||PC.ink,bold:!!c.bold,align:c.align||"left",valign:"middle"};
+  if(c.fill)o.fill={color:c.fill};
+  if(c.colspan)o.colspan=c.colspan;
+  return {text:c.t==null?"":String(c.t),options:o};
+}
+function addTableSlides(ctx,sec,head,rows,colW,minH,opt){
+  opt=opt||{};
+  var top=opt.top,plan=planTable(rows,colW,minH,PBOTTOM-top),last=null;
+  plan.pages.forEach(function(idx,pi){
+    var s=ctx.base(sec,pi>0);
+    if(opt.hint&&pi===0)s.addText(opt.hint,{x:PX,y:1.5,w:PW,h:0.4,fontFace:NF,fontSize:13,color:PC.ink,valign:"middle"});
+    var trs=[head.map(function(c){return mkCell({t:c,fill:PC.gray,color:PC.white,align:"center"},plan.pt)})];
+    var hts=[plan.headH];
+    idx.forEach(function(k){trs.push(rows[k].cells.map(function(c){return mkCell(c,plan.pt)}));hts.push(plan.hs[k])});
+    s.addTable(trs,{x:PX,y:top,colW:colW,rowH:hts,border:{type:"solid",pt:2,color:"FFFFFF"}});
+    last={slide:s,bottom:top+hts.reduce(function(a,b){return a+b},0)};
+  });
+  return last;
+}
+function cellRow(vals,opts){opts=opts||{};return {minH:opts.minH,cells:vals.map(function(v){return Object.assign({t:v,fill:PC.cell},opts.cell||{})})}}
+function labelCell(t,extra){return Object.assign({t:t,fill:PC.cell,align:"center"},extra||{})}
+
+function tableSection(ctx,sec,d){
+  var rows=rowsOf(sec,d),labeled=Array.isArray(sec.rows);
+  var labelW=labeled?PW*parseFloat((sec.cw&&sec.cw[0])||"16")/100:0,fixed=0,flex=0;
+  sec.cols.forEach(function(c){if(c.w)fixed+=PW*parseFloat(c.w)/100;else flex++});
+  var flexW=(PW-labelW-fixed)/Math.max(flex,1),colW=[];
+  if(labeled)colW.push(labelW);
+  sec.cols.forEach(function(c){colW.push(c.w?PW*parseFloat(c.w)/100:flexW)});
+  var head=(labeled?[sec.rowHead||"구분"]:[]).concat(sec.cols.map(function(c){return c.label}));
+  var body=rows.map(function(r){
+    var cells=[];
+    if(labeled)cells.push(labelCell(plain(r.label)));
+    sec.cols.forEach(function(c){
+      var v=d[sec.id+"."+r.k+"."+c.k]||"";
+      if(c.ctype==="check")cells.push({t:v?"✓ 완료":"☐",fill:PC.cell,align:"center"});
+      else if(c.ctype==="date")cells.push({t:pDate(v),fill:PC.cell,align:"center"});
+      else cells.push({t:v,fill:PC.cell});
+    });
+    return {cells:cells};
+  });
+  var minH=rows.length<=4?1.0:rows.length<=6?0.85:0.5;
+  var top=sec.hint?1.95:1.75;
+  var last=addTableSlides(ctx,sec,head,body,colW,minH,{top:top,hint:sec.hint});
+  if(sec.quote&&last.bottom<6.45)last.slide.addText(sec.quote.replace(" _ "," — "),{x:PX,y:6.5,w:PW,h:0.4,fontFace:NF,fontSize:11,color:PC.muted,align:"center",valign:"middle"});
+}
+function boxText(s,o,runs){s.addText(runs,Object.assign({fontFace:NF,valign:"top",color:PC.ink},o))}
+
+var PBUILD={
+  cover:function(ctx,sec,d){
+    var s=ctx.pp.addSlide(),name=String(d["cover.name"]||"").trim();
+    if(ctx.logo)s.addImage({data:ctx.logo,x:0.7,y:0.12,w:2.2,h:0.3});
+    s.addText("Since 2004",{x:0.7,y:0.55,w:6,h:0.45,fontFace:NF,fontSize:22,color:PC.teal,valign:"middle"});
+    s.addShape(ctx.pp.ShapeType.rect,{x:0.7,y:1.05,w:6.9,h:0.05,fill:{color:PC.navy},line:{color:PC.navy,width:0}});
+    s.addText("Career Roadmap",{x:0.7,y:1.2,w:6.9,h:1.0,fontFace:NF,fontSize:44,bold:true,color:PC.brown,align:"center",valign:"middle"});
+    s.addText("커리어로드맵",{x:0.7,y:2.15,w:6.9,h:0.9,fontFace:NF,fontSize:38,bold:true,color:PC.brown,align:"center",valign:"middle"});
+    s.addShape(ctx.pp.ShapeType.rect,{x:0.7,y:3.15,w:6.9,h:0.05,fill:{color:PC.navy},line:{color:PC.navy,width:0}});
+    var meta=[["작성 날짜 :",pDate(d["cover.date"])],["성　　명 :",name],["나　　이 :",d["cover.age"]?d["cover.age"]+" 세":"　　 세"]];
+    meta.forEach(function(m,i){
+      s.addText(m[0],{x:1.0,y:3.55+i*0.62,w:1.9,h:0.5,fontFace:NF,fontSize:18,color:PC.ink,valign:"middle"});
+      s.addText(m[1],{x:2.95,y:3.55+i*0.62,w:4.4,h:0.5,fontFace:NF,fontSize:18,color:PC.ink,valign:"middle"});
+    });
+    s.addText("나  "+(name||"　　　　")+"  는(은)\n내 자신의 성장과 가족의 행복을 위한 밑그림으로써\n이 글을 쓰는데 기꺼이 헌신하겠습니다.",{x:0.9,y:5.5,w:6.8,h:1.3,fontFace:NF,fontSize:15,color:PC.ink,valign:"top",lineSpacingMultiple:1.3});
+    if(ctx.tree)s.addImage({data:ctx.tree,x:8.55,y:0.5,w:4.3,h:6.45});
+    ctx.foot(s);
+  },
+  intro:function(ctx,sec,d){
+    var s=ctx.base(sec,false);
+    s.addText([{text:"커리어 로드맵(Career Roadmap)이란",options:{bold:true,fontSize:18,breakLine:true}},
+      {text:" ",options:{fontSize:6,breakLine:true}},
+      {text:"여행을 하면서 길을 찾아 갈 때 지도를 보면서 가는 것처럼",options:{fontSize:15,breakLine:true}},
+      {text:"미래상, 비전, 달성하고자 하는 목표를 수립하고",options:{fontSize:15,breakLine:true}},
+      {text:"성공적인 모습으로 살아가기 위해서 자신의 강점과 약점을 분석하고,",options:{fontSize:15,breakLine:true}},
+      {text:"직무 분석을 통해 자신에 적합한 직무를 미리 설계해보기 위해",options:{fontSize:15,breakLine:true}},
+      {text:"한눈에 볼 수 있도록",options:{fontSize:15,breakLine:true}},
+      {text:"실천계획을 수립해보는 것을 말한다.",options:{fontSize:15}}],
+      {x:0.8,y:1.6,w:11.7,h:2.5,fontFace:NF,color:PC.ink,valign:"top",lineSpacingMultiple:1.25});
+    s.addText("커리어 로드맵 그리기 3단계",{x:PX,y:4.1,w:PW,h:0.55,fontFace:NF,fontSize:22,bold:true,color:PC.navy,align:"center",valign:"middle"});
+    var STEPS=[
+      {c:PC.s1,n:"1단계",q:"내가 세상에 내놓을 것은\n무엇(What)인가?",i:"경력 정리 · 나만의 성공스토리 · 강점과 약점 · 핵심가치 · 3가지"},
+      {c:PC.s2,n:"2단계",q:"내 능력을 발휘할 수 있는 곳은\n어디(Where)인가?",i:"희망 기업·직무 · SWOT · 10년 후 미래 · 10가지 · 100년살이 · 리멤버"},
+      {c:PC.s3,n:"3단계",q:"원하는 직업을\n어떻게(How) 구할 것인가?",i:"롤모델 · 파트너 · 나의 고객 · Action Plan · 나의 선언"}];
+    var w=(PW-0.4)/3;
+    STEPS.forEach(function(p,i){
+      var x=PX+i*(w+0.2);
+      s.addShape(ctx.pp.ShapeType.rect,{x:x,y:4.8,w:w,h:2.05,fill:{color:PC.cell},line:{color:PC.cell,width:0}});
+      s.addShape(ctx.pp.ShapeType.rect,{x:x,y:4.8,w:w,h:0.07,fill:{color:p.c},line:{color:p.c,width:0}});
+      boxText(s,{x:x+0.1,y:4.95,w:w-0.2,h:1.85},[
+        {text:p.n,options:{bold:true,fontSize:15,color:p.c,breakLine:true}},
+        {text:p.q,options:{fontSize:14,breakLine:true}},
+        {text:p.i,options:{fontSize:10,color:PC.muted}}]);
+    });
+  },
+  three:function(ctx,sec,d){
+    var s=ctx.base(sec,false),w=(PW-0.4)/3;
+    [["three.like",PC.s1,"좋아하는 것","시간 가는 줄 모르고 하는 일"],["three.good",PC.s2,"잘 하는 것","남들보다 쉽게 성과를 내는 일"],["three.meaning",PC.s3,"의미 있는 것","하고 나면 가치를 느끼는 일"]].forEach(function(p,i){
+      var x=PX+i*(w+0.2),v=d[p[0]]||"";
+      s.addShape(ctx.pp.ShapeType.rect,{x:x,y:1.75,w:w,h:3.25,fill:{color:PC.cell},line:{color:PC.cell,width:0}});
+      s.addShape(ctx.pp.ShapeType.rect,{x:x,y:1.75,w:w,h:0.07,fill:{color:p[1]},line:{color:p[1],width:0}});
+      boxText(s,{x:x+0.1,y:1.9,w:w-0.2,h:3.05},[
+        {text:p[2],options:{bold:true,fontSize:18,color:p[1],breakLine:true}},
+        {text:p[3],options:{fontSize:10,color:PC.muted,breakLine:true}},
+        {text:v,options:{fontSize:fsFor(v,14,12,10)}}]);
+    });
+    var jv=d["three.job"]||"";
+    s.addShape(ctx.pp.ShapeType.rect,{x:PX,y:5.2,w:PW,h:1.65,fill:{color:PC.cell},line:{color:PC.navy,width:2}});
+    boxText(s,{x:PX+0.15,y:5.28,w:PW-0.3,h:1.5},[
+      {text:"Job",options:{bold:true,fontSize:20,color:PC.navy,breakLine:true}},
+      {text:"세 가지가 겹치는 곳에서 나의 일을 찾아 적어 봅니다.",options:{fontSize:10,color:PC.muted,breakLine:true}},
+      {text:jv,options:{fontSize:fsFor(jv,14,12,10)}}]);
+  },
+  swot:function(ctx,sec,d){
+    var s=ctx.base(sec,false);
+    s.addText("(목표)  "+(d["swot.goal"]||""),{x:PX,y:1.55,w:PW,h:0.5,fontFace:NF,fontSize:16,bold:true,color:PC.ink,valign:"middle"});
+    var w=(PW-0.15)/2;
+    [["S","강점 (Strength)","swot.S",0,0],["W","약점 (Weakness)","swot.W",1,0],["O","기회 (Opportunity)","swot.O",0,1],["T","위협 (Threaten)","swot.T",1,1]].forEach(function(p){
+      var x=PX+p[3]*(w+0.15),y=2.15+p[4]*2.4,v=d[p[2]]||"";
+      s.addText(p[0]+"  "+p[1],{x:x,y:y,w:w,h:0.42,fontFace:NF,fontSize:14,bold:true,color:PC.white,align:"center",valign:"middle",fill:{color:PC.gray}});
+      s.addShape(ctx.pp.ShapeType.rect,{x:x,y:y+0.45,w:w,h:1.8,fill:{color:PC.cell},line:{color:PC.cell,width:0}});
+      boxText(s,{x:x+0.1,y:y+0.5,w:w-0.2,h:1.7},[{text:v,options:{fontSize:fsFor(v,14,12,10)}}]);
+    });
+  },
+  future:function(ctx,sec,d){
+    var colW=[2.2,(PW-2.2)/2,(PW-2.2)/2];
+    var head=["구분","현재 (20"+(d["future.y0"]||"　")+"년)  나이 ("+(d["future.a0"]||"　")+"세)","미래 (20"+(d["future.y1"]||"　")+"년)  나이 ("+(d["future.a1"]||"　")+"세)"];
+    var rows=FUT.map(function(r){return {cells:[labelCell(r[1]),{t:d["future."+r[0]+".now"]||"",fill:PC.cell},{t:d["future."+r[0]+".next"]||"",fill:PC.cell}]}});
+    addTableSlides(ctx,sec,head,rows,colW,0.7,{top:2.0,hint:sec.hint});
+  },
+  life:function(ctx,sec,d){
+    var cw=(PW-1.0)/8,colW=[1.0];for(var i=0;i<8;i++)colW.push(cw);
+    var head=[""].concat(AGES.map(function(a){return a[0]+"\n"+a[1]}));
+    var act={minH:0.8,cells:[labelCell("인생\n극장")]};
+    [["1막","봄"],["2막","여름"],["3막","가을"],["4막","겨울"]].forEach(function(p){act.cells.push({t:p[0]+"\n"+p[1],fill:PC.cell3,align:"center",colspan:2})});
+    var task={minH:2.3,cells:[labelCell("과제",{fill:PC.cell2})]},job={minH:1.4,cells:[labelCell("직업",{fill:PC.cell3})]};
+    AGES.forEach(function(a){task.cells.push({t:d["life."+a[0]+".task"]||"",fill:PC.cell2});job.cells.push({t:d["life."+a[0]+".job"]||"",fill:PC.cell3})});
+    addTableSlides(ctx,sec,head,[act,task,job],colW,0.8,{top:1.75});
+  },
+  remember:function(ctx,sec,d){
+    var s=ctx.base(sec,false),nm=String(d["remember.name"]||d["cover.name"]||"").trim();
+    s.addText([{text:"나(",options:{}},{text:blank(nm,4),options:{color:PC.navy}},{text:")는  ",options:{}},{text:blank(d["remember.mod"],8),options:{color:PC.red}},{text:"  커리어코치로 기억되고 싶다.",options:{}}],
+      {x:PX,y:1.7,w:PW,h:0.9,fontFace:NF,fontSize:26,bold:true,color:PC.ink,align:"center",valign:"middle"});
+    s.addText("리멤버 선언문",{x:PX,y:2.8,w:PW,h:0.4,fontFace:NF,fontSize:15,bold:true,color:PC.ink,valign:"middle"});
+    var v=d["remember.text"]||"";
+    s.addShape(ctx.pp.ShapeType.rect,{x:PX,y:3.25,w:PW,h:2.9,fill:{color:PC.cell},line:{color:PC.cell,width:0}});
+    boxText(s,{x:PX+0.15,y:3.35,w:PW-0.3,h:2.7},[{text:v,options:{fontSize:fsFor(v,16,14,11)}}]);
+    s.addText("선언 날짜 :  "+pDate(d["remember.date"]),{x:PX,y:6.3,w:PW,h:0.45,fontFace:NF,fontSize:14,color:PC.ink,valign:"middle"});
+  },
+  decl:function(ctx,sec,d){
+    var nm=String(d["cover.name"]||"").trim();
+    var colW=[2.0,PW-2.0];
+    var rows=[{minH:1.3,cells:[labelCell("보상"),{t:d["decl.reward"]||"",fill:PC.cell}]},
+      {minH:0.8,cells:[labelCell("감사"),{t:d["decl.thanks"]===undefined?THANKS:d["decl.thanks"],fill:PC.cell}]}];
+    var last=addTableSlides(ctx,sec,["구분","나의 선언 내용"],rows,colW,0.8,{top:2.7,
+      hint:null});
+    // sentences go on the first slide of the section (top area)
+    var first=ctx.lastSlideFor(sec);
+    first.addText("나  "+blank(nm,5)+"  는 이 글에 쓴 것을 특별히 기억하고 실천한다.\n성취하였을 때, 다음과 같은 방법으로 내 자신에게 보상하겠다.",{x:PX,y:1.5,w:PW,h:1.1,fontFace:NF,fontSize:16,color:PC.ink,valign:"top",lineSpacingMultiple:1.3});
+    var y=Math.min(last.bottom+0.3,6.35);
+    last.slide.addText("서명 :  "+blank(d["decl.sign"],6)+"  (인)            날짜 :  "+(pDate(d["decl.date"])||blank("",8)),{x:PX,y:y,w:PW,h:0.5,fontFace:NF,fontSize:16,color:PC.ink,valign:"middle"});
+  },
+  summary:function(ctx,sec,d){
+    var s=ctx.base(sec,false);
+    var corner=function(x,y,t,txt,kw){
+      var runs=[{text:t,options:{bold:true,fontSize:18,breakLine:true}}];
+      runs.push({text:"# "+(d[kw]||""),options:{bold:true,fontSize:16,color:PC.red,breakLine:true}});
+      runs.push({text:txt||"",options:{fontSize:11,color:PC.muted}});
+      boxText(s,{x:x,y:y,w:4.0,h:1.9},runs);
+    };
+    corner(1.0,1.75,"나의 강점",aggSW(d,"s"),"sum.kw");
+    corner(8.3,1.75,"나의 약점",aggSW(d,"w"),"sum.kwW");
+    corner(1.0,3.85,"나의 기회",String(d["swot.O"]||"").trim(),"sum.kwO");
+    corner(8.3,3.85,"나의 위협",String(d["swot.T"]||"").trim(),"sum.kwT");
+    s.addText(((d["sum.mod"]||"").trim()?(d["sum.mod"].trim()+"\n"):"")+"커리어코치",{shape:ctx.pp.ShapeType.ellipse,x:5.0,y:2.8,w:3.3,h:1.7,fill:{color:PC.green},fontFace:NF,fontSize:20,bold:true,color:PC.white,align:"center",valign:"middle"});
+    s.addText([{text:"(목표) 나는\n",options:{color:PC.ink}},{text:(d["sum.goal"]||"").trim()?(d["sum.goal"].trim()+" "):"",options:{color:PC.red,bold:true}},{text:"커리어코치",options:{color:PC.red,bold:true}},{text:"가 될 것이다.",options:{color:PC.ink}}],
+      {x:PX,y:5.65,w:PW,h:1.2,fontFace:NF,fontSize:22,align:"center",valign:"middle"});
+  }
+};
+async function buildPptx(d,name,progress){
+  var P=await lib("pptx"),pp=new P();
+  pp.layout="LAYOUT_WIDE";pp.title="커리어로드맵 - "+(name||"");
+  var logo=null,tree=null;
+  try{logo=await imgData("logo.jpg")}catch(e){}
+  try{tree=await imgData("tree.jpg")}catch(e){}
+  var made=[];
+  var ctx={pp:pp,logo:logo,tree:tree,
+    foot:function(s){
+      s.addShape(pp.ShapeType.rect,{x:0,y:7.1,w:13.333,h:0.4,fill:{color:PC.bar},line:{color:PC.bar,width:0}});
+      s.addText("본 문서의 저작권은 윤코치연구소(www.yooncoach.com)에 있음을 공지합니다.",{x:0,y:7.1,w:13.333,h:0.4,fontFace:NF,fontSize:10,bold:true,color:PC.ink,align:"center",valign:"middle"});
+    },
+    base:function(sec,cont){
+      var s=pp.addSlide(),st=STG[sec.stage];made.push(s);
+      if(st&&st.name)s.addText([{text:st.name,options:{color:PC[sec.stage==="sum"?"sum":"s"+sec.stage],bold:true,fontSize:20}},{text:"    "+st.sub,options:{color:PC.ink,fontSize:12}}],{x:0.4,y:0.2,w:10.3,h:0.45,fontFace:NF,valign:"middle"});
+      if(logo)s.addImage({data:logo,x:10.85,y:0.17,w:2.2,h:0.3});
+      s.addText(sec.title+(cont?" (계속)":""),{x:PX,y:0.75,w:PW,h:0.8,fontFace:NF,fontSize:30,bold:true,color:PC.navy,align:"center",valign:"middle"});
+      ctx.foot(s);
+      return s;
+    },
+    lastSlideFor:function(){return made[made.length-1]}
+  };
+  ctx.lastSlideFor=function(){return firstOf};
+  var firstOf=null,origBase=ctx.base;
+  ctx.base=function(sec,cont){var s=origBase(sec,cont);if(!cont)firstOf=s;return s};
+  for(var i=0;i<SECS.length;i++){
+    var sec=SECS[i];progress(i+1,SECS.length);
+    (PBUILD[sec.id]||PBUILD[sec.type]||tableSection)(ctx,sec,d);
+  }
+  return pp.write({outputType:"arraybuffer"});
+}
+function fileBase(name){return "커리어로드맵_"+(name||"작성본")+"_"+courseLabel().replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g,"")}
+async function makePdf(d,name,progress){
+  var pages=await capturePages(d,name,progress),J=await lib("pdf"),W=297,doc=null;
+  pages.forEach(function(p){
+    var hh=W*p.h/p.w,o=hh>W?"p":"l";
+    if(!doc)doc=new J({orientation:o,unit:"mm",format:[W,hh],compress:true});else doc.addPage([W,hh],o);
+    doc.addImage(p.url,"JPEG",0,0,W,hh);
+  });
+  return doc.output("arraybuffer");
+}
+async function exportFile(kind,d,name,progress){
+  var base=fileBase(name);
+  if(kind==="pptx"){await save(base+".pptx",await buildPptx(d,name,progress));return}
+  await save(base+".pdf",await makePdf(d,name,progress));
+}function exportBtns(getD,getName,small){
+  var msg=h("span",{class:"pg",style:"align-self:center"});
+  function mk(kind,label){
+    var b=h("button",{class:"btn ghost"+(small?" sm":""),onclick:async function(){
+      var btns=wrap.querySelectorAll("button");btns.forEach(function(x){x.disabled=true});
+      try{
+        msg.textContent="만드는 중… ";
+        await exportFile(kind,getD(),getName(),function(i,n){msg.textContent="만드는 중… "+i+"/"+n});
+        msg.textContent="";
+      }catch(e){msg.textContent="파일을 만들지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요."}
+      btns.forEach(function(x){x.disabled=false});
+    }},label);
+    return b;
+  }
+  var wrap=h("div",{class:"exp"},mk("pdf","PDF로 내려받기"),mk("pptx","PPTX로 내려받기"),msg);
+  return wrap;
+}
+/* ---------- admin view ---------- */
+function statusOf(r){
+  if(!r)return{k:"none",t:"미시작"};
+  if(r.submitted&&r.updatedAt>r.submittedAt+1500)return{k:"part",t:"제출 후 수정"};
+  if(r.submitted)return{k:"done",t:"제출 완료"};
+  if(r.done>0||Object.keys(r.d||{}).length)return{k:"part",t:"작성 중"};
+  return{k:"none",t:"시작"};
+}
+function rosterParse(line){
+  var m=/[^\s,;]+@[^\s,;]+/.exec(line),email=m?m[0].toLowerCase():"";
+  var name=String(line).replace(m?m[0]:"","").replace(/[,;\t]+/g," ").trim();
+  return {name:name,email:email};
+}
+function isAllowed(email){
+  if(S.isAdmin)return true;
+  var list=S.roster.map(function(l){return rosterParse(l).email}).filter(Boolean);
+  return !list.length||list.indexOf(String(email).toLowerCase())>=0;
+}
+function adminList(){
+  var byName={},byEmail={},used={};
+  S.rows.forEach(function(r){
+    var k=norm(r.name);if(k){byName[k]=byName[k]||[];byName[k].push(r)}
+    if(r.email)byEmail[String(r.email).toLowerCase()]=r;
+  });
+  var list=[];
+  S.roster.forEach(function(line){
+    var p=rosterParse(line),m=(p.email&&byEmail[p.email])||(p.name&&(byName[norm(p.name)]||[])[0])||null;
+    if(m)used[m.uid]=1;
+    list.push({name:p.name||p.email||line,email:p.email||(m&&m.email)||"",row:m,inRoster:true});
+  });
+  S.rows.forEach(function(r){if(!used[r.uid])list.push({name:r.name||"(이름 없음)",email:r.email||"",row:r,inRoster:false})});
+  return list;
+}function adminView(){
+  if(S.detailUid){
+    var r=S.rows.filter(function(x){return x.uid===S.detailUid})[0];
+    if(!r){S.detailUid=null;return adminView()}
+    var wrap=h("div",null,h("div",{class:"detail-hd"},h("button",{class:"btn ghost sm",onclick:function(){S.detailUid=null;renderBody();window.scrollTo({top:0})}},"← 목록"),
+      h("h2",null,r.name||"(이름 없음)"),h("span",{class:"tag "+statusOf(r).k},statusOf(r).t),
+      h("span",{class:"pg"},(r.email?r.email+" · ":"")+r.done+"/"+r.total+" 완료 · 최종 수정 "+fmtTime(r.updatedAt)),
+      S.downloads?exportBtns(function(){return r.d||{}},function(){return r.name||"참가자"},true):null));
+    var ctx=ctxOf({d:r.d||{}});
+    SECS.forEach(function(sec){if(sec.info)return;var s=slideEl(sec,ctx);s.style.borderTop="1px solid var(--hair)";s.style.marginTop="26px";wrap.append(s)});
+    return wrap;
+  }
+  var list=adminList(),f=norm(S.filter);
+  var cnt={done:0,part:0,none:0};
+  list.forEach(function(x){var s=statusOf(x.row).k;cnt[s==="done"?"done":s==="part"?"part":"none"]++});
+  var shown=list.filter(function(x){return !f||(norm(x.name)+norm(x.email||"")).indexOf(f)>=0});
+  var tiles=h("div",{class:"tiles"},
+    h("div",{class:"tile"},h("b",null,list.length),h("span",null,S.roster.length?"전체 (명단 "+S.roster.length+"명)":"참가자")),
+    h("div",{class:"tile ok"},h("b",null,cnt.done),h("span",null,"제출 완료")),
+    h("div",{class:"tile warn"},h("b",null,cnt.part),h("span",null,"작성 중")),
+    h("div",{class:"tile"},h("b",null,cnt.none),h("span",null,"미시작")));
+  var ci=h("input",{type:"text",class:"cs-in",id:"courseIn",placeholder:"예) 2026 상반기","aria-label":"과정 시기",value:S.course});
+  var cs=h("div",{class:"tools",style:"margin:6px 0"},h("label",{for:"courseIn",style:"font-weight:500"},"과정 시기 표시"),ci,
+    h("button",{class:"btn sm",onclick:async function(){var v=ci.value.trim()||"2026";try{await S.db.doc("config/course").set({label:v});S.course=v;setCourse();setStatus("과정 시기를 저장했습니다.")}catch(e){setStatus("저장하지 못했습니다.",true)}}},"저장"),
+    h("span",{class:"pg"},"상단 초록색 글자와 내려받는 파일 이름, 파일 안의 머리글에 표시됩니다."));
+  var ta=h("textarea",{id:"rosterTa",placeholder:"참가자를 한 줄에 한 명씩 입력하세요.\n예) 홍길동 hong@example.com\n이메일이 있으면 이메일로, 없으면 표지에 입력한 성명으로 같은 사람인지 확인합니다."});ta.value=S.roster.join("\n");
+  var rs=h("details",{class:"roster"},h("summary",null,"참가자 명단 관리 ("+S.roster.length+"명)"),ta,
+    h("div",{class:"tools"},h("button",{class:"btn sm",onclick:async function(){
+      var names=ta.value.split(/\n/).map(function(s){return s.trim()}).filter(Boolean);
+      try{await S.db.doc("config/roster").set({names:names});S.roster=names;renderBody()}catch(e){setStatus("명단을 저장하지 못했습니다.",true)}
+    }},"명단 저장"),h("span",{class:"pg"},"명단에 이메일이 있으면 그 이메일로만 시작할 수 있고, 아직 시작하지 않은 사람도 현황에서 확인됩니다.")));
+  var search=h("input",{type:"search",placeholder:"이름·이메일 검색","aria-label":"이름·이메일 검색",value:S.filter});
+  search.addEventListener("input",function(){S.filter=search.value;var pos=search.selectionStart;renderBody();var n=document.querySelector("input[type=search]");if(n){n.focus();n.setSelectionRange(pos,pos)}});
+  var tools=h("div",{class:"tools"},search,
+    S.downloads?h("button",{class:"btn sm",onclick:downloadCsv},"전체 답변 내려받기 (.csv)"):null);
+  var tb=h("tbody");
+  shown.forEach(function(x){
+    var st=statusOf(x.row),r=x.row;
+    tb.append(h("tr",null,
+      h("td",null,x.name,x.inRoster?null:h("span",{class:"pg",style:"margin-left:6px"},"명단 외"),x.email?h("div",{class:"pg"},x.email):null),
+      h("td",null,h("span",{class:"tag "+st.k},st.t)),
+      h("td",null,r?h("div",{class:"bar"},h("i",null,h("b",{style:"width:"+Math.round(r.done/r.total*100)+"%"})),h("span",{class:"num"},r.done+"/"+r.total)):"—"),
+      h("td",{class:"num"},r?fmtTime(r.submittedAt):"—"),
+      h("td",{class:"num"},r?fmtTime(r.updatedAt):"—"),
+      h("td",null,r?h("button",{class:"linkbtn",onclick:function(){S.detailUid=r.uid;renderBody();window.scrollTo({top:0})}},"답변 보기"):null)));
+  });
+  var tbl=shown.length?h("div",{class:"tw"},h("table",{class:"at"},
+    h("thead",null,h("tr",null,h("th",null,"이름"),h("th",null,"상태"),h("th",null,"작성 진행"),h("th",null,"제출 일시"),h("th",null,"최종 수정"),h("th",null,""))),tb))
+    :h("div",{class:"empty-state"},list.length?"검색 결과가 없습니다.":"아직 작성을 시작한 참가자가 없습니다. 참가자가 링크를 열고 이메일을 입력해 시작하면 여기에 나타납니다.");
+  return h("section",{class:"slide","data-stage":"0"},h("h2",{class:"ttl",style:"margin-bottom:6px"},"참가자 작성 현황"),
+    h("p",{class:"hint",style:"text-align:center"},"자동으로 실시간 갱신됩니다. 제출 완료는 참가자가 직접 [제출하기]를 누른 경우입니다."),h("p",{class:"pg",style:"text-align:center;line-height:1.7;margin:0"},"참가자 초대: 오른쪽 위 공유 메뉴에서 참가자 이메일을 초대하고 링크를 보내 주세요. 아래 명단에도 같은 이메일을 등록해 두면 미시작자까지 확인됩니다."),tiles,cs,rs,tools,tbl);
+}
+function csvEsc(v){v=String(v==null?"":v);return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
+function downloadCsv(){
+  var merged={};
+  S.rows.forEach(function(r){Object.keys(r.d||{}).forEach(function(k){if(k.indexOf("n:")===0)merged[k]=String(Math.max(parseInt(merged[k],10)||0,parseInt(r.d[k],10)||0))})});
+  var cols=[];SECS.forEach(function(sec,i){fieldsOf(sec,merged).forEach(function(f){cols.push({key:f.key,label:(i+1)+"."+sec.short+" · "+f.label})})});
+  var head=["이름","이메일","상태","완료 섹션","제출 일시","최종 수정"].concat(cols.map(function(c){return c.label}));
+  var lines=[head.map(csvEsc).join(",")];
+  adminList().forEach(function(x){
+    var r=x.row,d=(r&&r.d)||{},st=statusOf(r);
+    lines.push([x.name,x.email||"",st.t,r?r.done+"/"+r.total:"",r&&r.submittedAt?new Date(r.submittedAt).toLocaleString("ko-KR"):"",r?new Date(r.updatedAt).toLocaleString("ko-KR"):""].concat(cols.map(function(c){return d[c.key]||""})).map(csvEsc).join(","));
+  });
+  var t=new Date();save("커리어로드맵_제출현황_"+t.getFullYear()+"-"+pad(t.getMonth()+1)+"-"+pad(t.getDate())+".csv","﻿"+lines.join("\r\n"));
+}
+
+/* ---------- email entry ---------- */
+function setWho(){
+  var el=$("who");el.textContent="";
+  if(!S.email||OPEN){el.hidden=true;return}
+  el.hidden=false;
+  el.append(h("span",{title:S.email},S.email));
+  if(!S.verified)el.append(h("button",{class:"linkbtn",onclick:changeEmail},"변경"));
+}
+function changeEmail(){
+  clearTimeout(S.dirtyT);
+  S.email="";ls.set("cr-email","");S.d={};S.doc={submitted:false,submittedAt:0,updatedAt:0};S.lastSig="";S.cur=0;S.confirmSubmit=false;
+  setWho();renderAll();window.scrollTo({top:0});
+}
+function blockedView(){
+  return h("section",{class:"slide","data-stage":"0"},h("h2",{class:"ttl"},"참가자 명단에서 확인되지 않았습니다"),
+    h("div",{class:"gate"},h("p",{style:"margin:0"},S.email+" 은(는) 참가자 명단에 없는 이메일입니다."),
+      h("p",{class:"pg",style:"margin:0"},"담당자에게 이 이메일을 명단에 등록해 달라고 요청해 주세요.")));
+}
+function gateView(){
+  var inp=h("input",{class:"f gate-in",id:"f-email",type:"email",autocomplete:"email",inputmode:"email",placeholder:"name@example.com","aria-label":"이메일 주소"});
+  var useCode=REMOTE&&CONFIG.requireCode;
+  var codeIn=useCode?h("input",{class:"f gate-in",id:"f-code",type:"text",autocomplete:"one-time-code",autocapitalize:"characters",placeholder:"담당자에게 받은 코드","aria-label":"참가자 코드"}):null;
+  var err=h("p",{class:"gate-err",role:"alert"});
+  var btn=h("button",{class:"btn",onclick:enter},"시작하기");
+  async function enter(){
+    var v=inp.value.trim().toLowerCase(),res=null;
+    if(!/^[^\s@,;]+@[^\s@,;]+\.[^\s@,;]+$/.test(v)){err.textContent="이메일 주소 형식으로 입력해 주세요. 예) name@example.com";inp.focus();return}
+    var code=codeIn?codeIn.value.trim():"";
+    if(REMOTE){
+      if(useCode&&!code){err.textContent="참가자 코드를 입력해 주세요.";codeIn.focus();return}
+      btn.disabled=true;err.textContent="확인 중…";
+      try{res=await api("verify",{email:v,code:code})}catch(e){res=null}
+      btn.disabled=false;
+      if(!res||!res.ok){err.textContent=(res&&ERR[res.error])||"확인하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.";return}
+      S.code=code;ls.set("cr-code",code);
+    }else if(!isAllowed(v)){err.textContent="참가자 명단에 없는 이메일입니다. 담당자가 등록한 이메일로 입력해 주세요.";inp.focus();return}
+    err.textContent="";S.email=v;ls.set("cr-email",v);
+    await loadState();S.cur=0;
+    if(res&&res.name&&!S.d["cover.name"]){S.d["cover.name"]=res.name;markDirty()}
+    setWho();
+    setStatus(S.canWrite?"자동 저장 켜짐":"이 기기에 임시 저장됨");
+    renderAll();window.scrollTo({top:0});
+  }
+  inp.addEventListener("keydown",function(e){if(e.key==="Enter"&&!codeIn)enter()});
+  if(codeIn)codeIn.addEventListener("keydown",function(e){if(e.key==="Enter")enter()});
+  return h("section",{class:"slide","data-stage":"0","aria-labelledby":"t-gate"},
+    h("h2",{class:"ttl",id:"t-gate"},"시작하기"),
+    h("div",{class:"gate"},
+      h("p",{style:"margin:0"},useCode?"담당자에게 안내받은 이메일 주소와 참가자 코드를 입력하고 시작해 주세요. 같은 이메일과 코드로 다시 들어오면 이 기기에서 작성하던 내용을 이어서 쓸 수 있습니다.":"담당자에게 안내받은 이메일 주소를 입력하고 시작해 주세요. 같은 이메일로 다시 들어오면 작성하던 내용을 이어서 쓸 수 있고, 담당자가 작성 현황을 확인할 때 본인을 구분하는 데 쓰입니다."),
+      h("label",{for:"f-email",class:"lab",style:"margin:6px 0 0"},"이메일 주소"),inp,
+      useCode?h("label",{for:"f-code",class:"lab",style:"margin:6px 0 0"},"참가자 코드"):null,codeIn,
+      err,btn,
+      h("p",{class:"pg",style:"margin:6px 0 0;line-height:1.7"},REMOTE?"작성하는 내용은 이 기기의 브라우저에 자동 저장되고, 마지막에 제출하면 협회 담당자에게 전달됩니다.":"이메일은 본인을 구분하는 이름표로 쓰이며 비밀번호가 아닙니다. 로그인 없이 쓰는 경우 작성한 내용은 이 기기의 이 브라우저에 저장됩니다.")));
+}
+/* ---------- render ---------- */
+function renderBody(){
+  var m=$("main"),active=document.activeElement&&document.activeElement.id,selS,selE;
+  if(active&&document.activeElement.setSelectionRange){try{selS=document.activeElement.selectionStart;selE=document.activeElement.selectionEnd}catch(e){}}
+  m.textContent="";
+  if(S.tab==="admin"){m.append(adminView());return}
+  if(!S.loaded){m.append(h("div",{class:"empty-state",style:"margin-top:24px"},"불러오는 중…"));return}
+  if(S.blocked){m.append(blockedView());return}
+  if(!S.email){m.append(gateView());var gi=document.getElementById("f-email");if(gi&&!active)setTimeout(function(){gi.focus()},0);return}
+  var b=banner();if(b)m.append(b);
+  if(S.cur>=NAVN){m.append(submitPage());m.append(h("div",{class:"pager"},h("button",{class:"btn ghost",onclick:function(){go(NAVN-1)}},"← 이전"),h("span",{class:"pg"},(NAVN+1)+" / "+(NAVN+1)),h("span")));return}
+  var sec=SECS[S.cur];
+  m.append(slideEl(sec,ctxOf(null)));m.append(pager());
+  if(active){var n=document.getElementById(active);if(n){n.focus();if(selS!=null&&n.setSelectionRange){try{n.setSelectionRange(selS,selE)}catch(e){}}}}
+}
+function renderAll(){
+  $("tabForm").setAttribute("aria-pressed",S.tab==="form");$("tabAdmin").setAttribute("aria-pressed",S.tab==="admin");
+  $("chips").hidden=S.tab!=="form"||!S.email||S.blocked;$("meter").hidden=S.tab!=="form"||!S.email||S.blocked;
+  renderChips();refreshMeta();renderBody();
+}
+
+/* cover pledge name updates live */
+document.addEventListener("input",function(e){
+  if(e.target&&e.target.id==="f-cover.name"){var p=document.querySelector(".pledge .nm");if(p)p.textContent=String(e.target.value).trim()||"　"}
+});
+
+/* ---------- boot ---------- */
+async function loadState(){
+  S.d={};S.doc={submitted:false,submittedAt:0,updatedAt:0};S.lastSig="";
+  var local=null;try{local=JSON.parse(ls.get(lsKey())||"null")}catch(e){}
+  var remote=null;
+  if(S.db&&S.uid){try{var snap=await S.db.doc("roadmaps/"+S.uid).get();if(snap.exists)remote=snap.data()}catch(e){}}
+  if(remote){
+    S.d=Object.assign({},remote.d||{});S.doc={submitted:!!remote.submitted,submittedAt:remote.submittedAt||0,updatedAt:remote.updatedAt||0};
+    S.lastSig=JSON.stringify([S.d,S.doc.submitted,S.doc.submittedAt,remote.name||""]);
+    if(local&&local.doc&&local.doc.updatedAt>S.doc.updatedAt+2000){S.d=local.d||S.d;S.doc=local.doc;S.lastSig=""}
+  }else if(local){S.d=local.d||{};S.doc=Object.assign({submitted:false,submittedAt:0,updatedAt:0},local.doc||{})}
+  S.loaded=true;
+  if(S.canWrite&&!S.lastSig&&Object.keys(S.d).length)flush();
+}
+async function boot(){
+  var cur=parseInt(ls.get("cr-cur"),10);if(cur>=0&&cur<=NAVN)S.cur=cur;
+  setCourse();
+  renderAll();
+  var user=await use("user");S.db=await use("db");S.downloads=await use("downloads");
+  if(user){
+    try{S.uid=await user.id();var me=await user.me();S.myName=me&&me.name||"";S.isAdmin=!!(await user.isOwner());if(me&&me.email){S.email=String(me.email).toLowerCase();S.verified=true}}catch(e){}
+    try{var cw=await user.can("data.write");S.canWrite=!!S.db&&!!S.uid&&cw!==false}catch(e){S.canWrite=!!S.db&&!!S.uid}
+  }
+  if(S.db){
+    try{var cs0=await S.db.doc("config/course").get();if(cs0.exists&&cs0.data().label)S.course=cs0.data().label}catch(e){}
+    if(!S.isAdmin){try{var rs0=await S.db.doc("config/roster").get();if(rs0.exists)S.roster=rs0.data().names||[]}catch(e){}}
+  }
+  setCourse();
+  if(OPEN)S.email="local";
+  else if(!S.verified){var em=ls.get("cr-email");if(em)S.email=em;if(em&&REMOTE){S.code=ls.get("cr-code")||"";if(CONFIG.requireCode&&!S.code)S.email=""}}
+  if(S.email&&!isAllowed(S.email)){if(S.verified)S.blocked=true;else{S.email="";ls.set("cr-email","")}}
+  if(S.email&&!S.blocked)await loadState();else S.loaded=true;
+  setWho();  setStatus(S.canWrite?"자동 저장 켜짐":"이 기기에 임시 저장됨");
+  if(S.isAdmin&&S.db){
+    $("tabs").hidden=false;
+    S.db.doc("config/course").onSnapshot(function(s){if(s.exists&&s.data().label){S.course=s.data().label;setCourse()}},function(){});
+    S.db.collection("roadmaps").onSnapshot(function(q){S.rows=q.docs.map(function(x){return x.data()}).filter(function(r){return r&&r.uid});if(S.tab==="admin"&&document.activeElement.tagName!=="TEXTAREA")renderBody()},function(){});
+    S.db.doc("config/roster").onSnapshot(function(s){S.roster=s.exists?(s.data().names||[]):[];if(S.tab==="admin"&&document.activeElement.tagName!=="TEXTAREA")renderBody()},function(){});
+  }
+  renderAll();
+}
+$("tabForm").addEventListener("click",function(){S.tab="form";renderAll()});
+$("tabAdmin").addEventListener("click",function(){S.tab="admin";S.detailUid=null;renderAll();window.scrollTo({top:0})});
+boot();
+})();
+</script>
+
+</body></html>
