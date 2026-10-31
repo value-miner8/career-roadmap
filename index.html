@@ -734,7 +734,8 @@ function submitPage(){
   return h("section",{class:"slide","data-stage":"0"},
     h("h2",{class:"ttl"},"작성 확인과 "+DONE_WORD),
     h("div",{class:"sub"},msg,items,privacy,consentBox,sm,h("div",{class:"subact"},sb,dl),nosave,
-      OPEN?h("p",{class:"hint",style:"margin-top:12px;color:var(--muted)"},"작성한 내용은 이 기기의 이 브라우저에만 저장됩니다. 다른 기기에서는 이어서 쓸 수 없으니, 다 쓰면 꼭 내려받아 보관해 주세요."):null));
+      OPEN?h("p",{class:"hint",style:"margin-top:12px;color:var(--muted)"},"작성한 내용은 이 기기의 이 브라우저에만 저장됩니다. 다른 기기에서 이어 쓰려면 PPTX로 내려받아 두었다가, 그 기기에서 이 웹페이지를 열고 [저장한 PPT 불러오기]로 파일을 고르세요."):null,
+      OPEN?importBtn():null));
 }
 async function submitRemote(){
   if(S.submitting||!S.consent)return;
@@ -776,7 +777,8 @@ async function save(filename,data){
 var LIBS={
   h2c:["https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js",function(){return window.html2canvas}],
   pdf:["https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",function(){return window.jspdf&&window.jspdf.jsPDF}],
-  pptx:["https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js",function(){return window.PptxGenJS}]
+  pptx:["https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js",function(){return window.PptxGenJS}],
+  zip:["https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js",function(){return window.JSZip}]
 };
 var libP={};
 function lib(name){
@@ -1057,7 +1059,66 @@ async function buildPptx(d,name,progress){
     var sec=SECS[i];progress(i+1,SECS.length);
     (PBUILD[sec.id]||PBUILD[sec.type]||tableSection)(ctx,sec,d);
   }
-  return pp.write({outputType:"arraybuffer"});
+  return embedData(await pp.write({outputType:"arraybuffer"}),d);
+}
+/* ---------- 작성 내용을 PPTX 안에 넣고 다시 꺼내기 ----------
+   문서 속성(사용자 지정 속성)에 나눠 넣습니다. 파워포인트에서 열어 다시 저장해도 유지됩니다. */
+var CR_CHUNK=240;
+function xmlEsc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+async function embedData(buf,d){
+  var Z=await lib("zip"),zip=await Z.loadAsync(buf);
+  var cp=Array.from(JSON.stringify({v:1,d:d})),parts=[];
+  for(var i=0;i<cp.length;i+=CR_CHUNK)parts.push(cp.slice(i,i+CR_CHUNK).join(""));
+  var props=[["CR_COUNT",String(parts.length)]].concat(parts.map(function(p,i){return["CR_"+i,p]}));
+  var xml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/custom-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">'+
+    props.map(function(p,i){return '<property fmtid="{D5CDD505-2E9C-101B-9397-08002B2CF9AE}" pid="'+(i+2)+'" name="'+p[0]+'"><vt:lpwstr>'+xmlEsc(p[1])+'</vt:lpwstr></property>'}).join("")+'</Properties>';
+  zip.file("docProps/custom.xml",xml);
+  var ct=await zip.file("[Content_Types].xml").async("string");
+  if(ct.indexOf("/docProps/custom.xml")<0)ct=ct.replace("</Types>",'<Override PartName="/docProps/custom.xml" ContentType="application/vnd.openxmlformats-officedocument.custom-properties+xml"/></Types>');
+  zip.file("[Content_Types].xml",ct);
+  var rels=await zip.file("_rels/.rels").async("string");
+  if(rels.indexOf("docProps/custom.xml")<0)rels=rels.replace("</Relationships>",'<Relationship Id="rIdCR1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/custom-properties" Target="docProps/custom.xml"/></Relationships>');
+  zip.file("_rels/.rels",rels);
+  return zip.generateAsync({type:"arraybuffer",compression:"DEFLATE"});
+}
+async function readData(file){
+  var Z=await lib("zip"),zip;
+  try{zip=await Z.loadAsync(await file.arrayBuffer())}catch(e){throw new Error("notpptx")}
+  var f=zip.file("docProps/custom.xml");if(!f)throw new Error("nodata");
+  var doc=new DOMParser().parseFromString(await f.async("string"),"application/xml"),map={};
+  Array.prototype.forEach.call(doc.getElementsByTagName("*"),function(el){
+    if(el.localName==="property"&&/^CR_/.test(el.getAttribute("name")||""))map[el.getAttribute("name")]=el.textContent;
+  });
+  var n=parseInt(map.CR_COUNT,10),s="";
+  if(!(n>0))throw new Error("nodata");
+  for(var i=0;i<n;i++){if(map["CR_"+i]==null)throw new Error("nodata");s+=map["CR_"+i]}
+  var o=JSON.parse(s);if(!o||typeof o.d!=="object")throw new Error("nodata");
+  return o.d;
+}
+function importBtn(){
+  var msg=h("span",{class:"pg",style:"align-self:center"});
+  var inp=h("input",{type:"file",accept:".pptx,application/vnd.openxmlformats-officedocument.presentationml.presentation",style:"display:none"});
+  var btn=h("button",{class:"btn ghost",onclick:function(){inp.click()}},"저장한 PPT 불러오기");
+  inp.addEventListener("change",async function(){
+    var file=inp.files&&inp.files[0];inp.value="";if(!file)return;
+    btn.disabled=true;msg.textContent="불러오는 중…";
+    try{
+      var d=await readData(file);
+      if(Object.keys(S.d).length&&!confirm("지금 이 기기에 쓴 내용을 불러온 파일의 내용으로 바꿉니다. 계속할까요?")){msg.textContent="";btn.disabled=false;return}
+      S.d=d;S.doc.submitted=false;markDirty();
+      setStatus("PPT 파일에서 작성 내용을 불러왔습니다");
+      renderAll();window.scrollTo({top:0});return;
+    }catch(e){
+      msg.textContent=e&&e.message==="nodata"?"이 파일에서 작성 내용을 찾지 못했습니다. 이 웹페이지에서 내려받은 PPT 파일을 골라 주세요.":
+        e&&e.message==="notpptx"?"PPT(.pptx) 파일이 아닙니다. 이 웹페이지에서 내려받은 PPT 파일을 골라 주세요.":"불러오지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.";
+    }
+    btn.disabled=false;
+  });
+  return h("div",{class:"exp"},btn,inp,msg);
+}
+function importBar(){
+  return h("div",{class:"note",style:"display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between"},
+    h("span",null,"다른 기기에서 쓰던 내용이 있나요? 이 웹페이지에서 내려받은 PPT 파일을 불러오면 이어서 쓸 수 있습니다."),importBtn());
 }
 function fileBase(name){return "커리어로드맵_"+(name||"작성본")+"_"+courseLabel().replace(/[\\/:*?"<>|]/g,"").replace(/\s+/g,"")}
 async function makePdf(d,name,progress){
@@ -1252,6 +1313,7 @@ function renderBody(){
   if(S.blocked){m.append(blockedView());return}
   if(!S.email){m.append(gateView());var gi=document.getElementById("f-email");if(gi&&!active)setTimeout(function(){gi.focus()},0);return}
   var b=banner();if(b)m.append(b);
+  if(OPEN&&S.cur===0)m.append(importBar());
   if(S.cur>=NAVN){m.append(submitPage());m.append(h("div",{class:"pager"},h("button",{class:"btn ghost",onclick:function(){go(NAVN-1)}},"← 이전"),h("span",{class:"pg"},(NAVN+1)+" / "+(NAVN+1)),h("span")));return}
   var sec=SECS[S.cur];
   m.append(slideEl(sec,ctxOf(null)));m.append(pager());
