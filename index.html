@@ -185,7 +185,8 @@ textarea.f{min-height:64px;line-height:1.5;overflow:hidden}
 .def{display:flex;flex-direction:column;gap:8px;font-size:clamp(15px,2vw,18px);line-height:1.7}
 .intro-art{width:100%;max-width:300px;height:auto;display:block;margin:0 auto}
 .sub-ttl{font-size:clamp(22px,3.6vw,32px);margin:38px 0 18px}
-.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .step{--c:var(--s1);background:var(--cell);border-top:5px solid var(--c);padding:14px 16px 12px;display:flex;flex-direction:column;gap:6px}
 .step[data-stage="2"]{--c:var(--s2)} .step[data-stage="3"]{--c:var(--s3)}
 .step-n{font-family:var(--display);color:var(--c);font-size:18px}
@@ -328,6 +329,13 @@ var STG={
  brand:{name:"커리어 로드맵 4단계 _ 경력 브랜딩하기",sub:"미래의 나를 정의하면?",c:"s0"}
 };
 function stgOf(sec){return STG[sec.hd||sec.stage]}
+/* '커리어로드맵이란' 안내의 단계 카드 (웹 화면·PPTX 공용) */
+var INTRO_STEPS=[
+ {n:1,tag:"경력자용",hd:"howWork",pre:"나는 지금까지",key:"어떻게(HOW)",post:" 일해 왔는가?",items:"경력 정리 · 나만의 성공스토리"},
+ {n:2,hd:"whatHave",pre:"내가 세상에 내놓을 것은",key:"무엇(What)",post:"인가?",items:"강점과 약점 · 핵심가치 · 좋아하는 것, 잘 하는 것, 의미 있는 것"},
+ {n:3,hd:"whereWork",pre:"내 능력을 발휘할 수 있는 곳은",key:"어디(Where)",post:"인가?",items:"희망 기업·직무 · SWOT 분석 · 10년 후 미래 · 이루고 싶은 10가지 · 100년살이"},
+ {n:4,hd:"brand",pre:"원하는 직업을",key:"어떻게(How)",post:" 구할 것인가?",items:"리멤버 선언문 · 롤모델 · 파트너 · 나의 고객 · Action Plan · 나의 선언"}
+];
 function stgColor(sec){var st=STG[sec.hd];return st&&st.c?st.c:sec.stage===0?"s0":sec.stage==="sum"?"ssum":"s"+sec.stage}
 /* 활동지별 작성 팁: [라벨, 내용(html)] — 내용이 있는 활동지에만 [작성 팁 보기] 버튼이 나옵니다 */
 var TIPS={
@@ -641,16 +649,11 @@ function introEl(){
     '<path d="M76 250 h18 M102 250 h14" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>'+
     '<circle cx="236" cy="212" r="36" fill="var(--bg)" stroke="var(--ink)" stroke-width="3.5"/><ellipse cx="236" cy="212" rx="15" ry="36" fill="none" stroke="var(--ink)" stroke-width="2.5"/><path d="M200 212h72M208 194h56M208 230h56" stroke="var(--ink)" stroke-width="2.2" fill="none"/>'+
     '<path d="M218 264 h36 M236 248 v16" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round"/></svg>';
-  var STEPS=[
-    {n:1,pre:"내가 세상에 내놓을 것은",key:"무엇(What)",post:"인가?",items:"경력 정리 · 나만의 성공스토리 · 강점과 약점 · 핵심가치 · 좋아하는 것, 잘 하는 것, 의미 있는 것"},
-    {n:2,pre:"내 능력을 발휘할 수 있는 곳은",key:"어디(Where)",post:"인가?",items:"희망 기업·직무 · SWOT 분석 · 10년 후 미래 · 이루고 싶은 10가지 · 100년살이 · 리멤버 선언문"},
-    {n:3,pre:"원하는 직업을",key:"어떻게(How)",post:" 구할 것인가?",items:"롤모델 · 파트너 · 나의 고객 · Action Plan · 나의 선언"}
-  ];
   var cards=h("div",{class:"steps"});
-  STEPS.forEach(function(s){
-    var first=0;SECS.forEach(function(x,i){if(!first&&x.stage===s.n)first=i});
-    cards.append(h("div",{class:"step","data-stage":String(s.n)},
-      h("div",{class:"step-n"},s.n+"단계"),
+  INTRO_STEPS.forEach(function(s){
+    var first=0;SECS.forEach(function(x,i){if(!first&&x.hd===s.hd)first=i});
+    cards.append(h("div",{class:"step",style:"--c:var(--"+STG[s.hd].c+")"},
+      h("div",{class:"step-n"},s.n+"단계"+(s.tag?" ("+s.tag+")":"")),
       h("p",{class:"step-q"},s.pre,h("br"),h("b",null,s.key),s.post),
       h("p",{class:"step-i"},s.items),
       h("button",{class:"linkbtn",onclick:function(){go(first)}},s.n+"단계로 이동 →")));
@@ -661,7 +664,7 @@ function introEl(){
       h("div",null,h("h3",{class:"def-hd"},"커리어 로드맵(Career Roadmap)이란"),
         h("div",{class:"def"},lines.map(function(l){return h("span",null,l)}))),
       h("div",{html:art})),
-    h("h2",{class:"ttl sub-ttl"},"커리어 로드맵 그리기 3단계"),
+    h("h2",{class:"ttl sub-ttl"},"커리어 로드맵 그리기 4단계"),
     cards,
     h("p",{class:"quote"},OPEN?"작성한 내용은 이 기기의 브라우저에 자동으로 저장되며, 마지막 ‘내려받기’ 단계에서 PDF나 PPTX로 내려받을 수 있습니다.":"작성한 내용은 자동으로 저장되며, 마지막 ‘제출’ 단계에서 제출합니다."));
 }function slideEl(sec,ctx){
@@ -969,20 +972,17 @@ var PBUILD={
       {text:"한눈에 볼 수 있도록",options:{fontSize:15,breakLine:true}},
       {text:"실천계획을 수립해보는 것을 말한다.",options:{fontSize:15}}],
       {x:0.8,y:1.6,w:11.7,h:2.5,fontFace:NF,color:PC.ink,valign:"top",lineSpacingMultiple:1.25});
-    s.addText("커리어 로드맵 그리기 3단계",{x:PX,y:4.1,w:PW,h:0.55,fontFace:NF,fontSize:22,bold:true,color:PC.navy,align:"center",valign:"middle"});
-    var STEPS=[
-      {c:PC.s1,n:"1단계",q:"내가 세상에 내놓을 것은\n무엇(What)인가?",i:"경력 정리 · 나만의 성공스토리 · 강점과 약점 · 핵심가치 · 3가지"},
-      {c:PC.s2,n:"2단계",q:"내 능력을 발휘할 수 있는 곳은\n어디(Where)인가?",i:"희망 기업·직무 · SWOT · 10년 후 미래 · 10가지 · 100년살이 · 리멤버"},
-      {c:PC.s3,n:"3단계",q:"원하는 직업을\n어떻게(How) 구할 것인가?",i:"롤모델 · 파트너 · 나의 고객 · Action Plan · 나의 선언"}];
-    var w=(PW-0.4)/3;
+    s.addText("커리어 로드맵 그리기 4단계",{x:PX,y:4.1,w:PW,h:0.55,fontFace:NF,fontSize:22,bold:true,color:PC.navy,align:"center",valign:"middle"});
+    var STEPS=INTRO_STEPS.map(function(t){return {c:PC[STG[t.hd].c],n:t.n+"단계"+(t.tag?" ("+t.tag+")":""),q:t.pre+"\n"+t.key+t.post,i:t.items}});
+    var w=(PW-0.45)/4;
     STEPS.forEach(function(p,i){
-      var x=PX+i*(w+0.2);
+      var x=PX+i*(w+0.15);
       s.addShape(ctx.pp.ShapeType.rect,{x:x,y:4.8,w:w,h:2.05,fill:{color:PC.cell},line:{color:PC.cell,width:0}});
       s.addShape(ctx.pp.ShapeType.rect,{x:x,y:4.8,w:w,h:0.07,fill:{color:p.c},line:{color:p.c,width:0}});
       boxText(s,{x:x+0.1,y:4.95,w:w-0.2,h:1.85},[
         {text:p.n,options:{bold:true,fontSize:15,color:p.c,breakLine:true}},
-        {text:p.q,options:{fontSize:14,breakLine:true}},
-        {text:p.i,options:{fontSize:10,color:PC.muted}}]);
+        {text:p.q,options:{fontSize:12.5,breakLine:true}},
+        {text:p.i,options:{fontSize:9.5,color:PC.muted}}]);
     });
   },
   three:function(ctx,sec,d){
