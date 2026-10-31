@@ -1116,6 +1116,40 @@ function importBtn(){
   });
   return h("div",{class:"exp"},btn,inp,msg);
 }
+/* ---------- 카카오톡 등 앱 안 브라우저: 내려받기가 막히므로 기본 브라우저로 넘깁니다 ----------
+   쓰던 내용은 주소의 # 뒤에 담아 넘깁니다(# 뒤는 서버로 전송되지 않습니다). */
+var INAPP=(function(ua){return /KAKAOTALK/i.test(ua)?"kakao":/\bLine\//i.test(ua)?"line":/Instagram|FBAN|FBAV|NAVER\(inapp|BAND\/|everytimeApp|DaumApps|wv\)/i.test(ua)?"other":""})(navigator.userAgent||"");
+function b64uEnc(s){var b=new TextEncoder().encode(s),bin="";for(var i=0;i<b.length;i+=0x8000)bin+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+function b64uDec(s){var bin=atob(s.replace(/-/g,"+").replace(/_/g,"/")),b=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++)b[i]=bin.charCodeAt(i);return new TextDecoder().decode(b)}
+function handoffUrl(){
+  var u=location.origin+location.pathname;
+  if(Object.keys(S.d).length)u+="#cr="+b64uEnc(JSON.stringify({d:S.d,cur:S.cur}));
+  return u;
+}
+function openExternal(){
+  var u=handoffUrl();
+  if(INAPP==="kakao")location.href="kakaotalk://web/openExternal?url="+encodeURIComponent(u);
+  else if(INAPP==="line")location.href=u.replace(/(#|$)/,(u.indexOf("?")<0?"?":"&")+"openExternalBrowser=1$1");
+}
+function takeHandoff(){
+  var m=/^#cr=([A-Za-z0-9_-]+)$/.exec(location.hash||"");
+  if(!m)return;
+  try{history.replaceState(null,"",location.pathname+location.search)}catch(e){}
+  try{
+    var o=JSON.parse(b64uDec(m[1]));if(!o||typeof o.d!=="object")return;
+    if(JSON.stringify(o.d)===JSON.stringify(S.d))return;
+    if(Object.keys(S.d).length&&!confirm("카카오톡에서 쓰던 내용을 가져왔습니다. 이 브라우저에 이미 있던 내용을 카카오톡에서 쓰던 내용으로 바꿀까요?"))return;
+    S.d=o.d;if(o.cur>=0&&o.cur<=NAVN){S.cur=o.cur;ls.set("cr-cur",String(S.cur))}
+    markDirty();setStatus("카카오톡에서 쓰던 내용을 이어서 씁니다");
+  }catch(e){}
+}
+function inappBar(){
+  if(!INAPP)return null;
+  var can=INAPP==="kakao"||INAPP==="line";
+  return h("div",{class:"note bad",style:"display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between"},
+    h("span",null,(INAPP==="kakao"?"카카오톡":"앱")+" 안에서 열려 있어 PDF·PPT 파일을 내려받을 수 없습니다. "+(can?"아래 버튼을 눌러 휴대폰의 기본 브라우저(크롬·사파리 등)로 열어 주세요. 쓰던 내용도 함께 옮겨집니다.":"오른쪽 위(또는 아래) 메뉴에서 ‘다른 브라우저로 열기’를 눌러 주세요.")),
+    can?h("button",{class:"btn",onclick:openExternal},"기본 브라우저로 열기"):null);
+}
 function importBar(){
   return h("div",{class:"note",style:"display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between"},
     h("span",null,"다른 기기에서 쓰던 내용이 있나요? 이 웹페이지에서 내려받은 PPT 파일을 불러오면 이어서 쓸 수 있습니다."),importBtn());
@@ -1313,6 +1347,7 @@ function renderBody(){
   if(S.blocked){m.append(blockedView());return}
   if(!S.email){m.append(gateView());var gi=document.getElementById("f-email");if(gi&&!active)setTimeout(function(){gi.focus()},0);return}
   var b=banner();if(b)m.append(b);
+  if(OPEN&&INAPP&&(S.cur===0||S.cur>=NAVN))m.append(inappBar());
   if(OPEN&&S.cur===0)m.append(importBar());
   if(S.cur>=NAVN){m.append(submitPage());m.append(h("div",{class:"pager"},h("button",{class:"btn ghost",onclick:function(){go(NAVN-1)}},"← 이전"),h("span",{class:"pg"},(NAVN+1)+" / "+(NAVN+1)),h("span")));return}
   var sec=SECS[S.cur];
@@ -1363,6 +1398,8 @@ async function boot(){
   if(S.email&&!isAllowed(S.email)){if(S.verified)S.blocked=true;else{S.email="";ls.set("cr-email","")}}
   if(S.email&&!S.blocked)await loadState();else S.loaded=true;
   setWho();  setStatus(S.canWrite?"자동 저장 켜짐":"이 기기에 임시 저장됨");
+  if(OPEN)takeHandoff();
+  if(OPEN&&INAPP==="kakao")setTimeout(openExternal,300);
   if(S.isAdmin&&S.db){
     $("tabs").hidden=false;
     S.db.doc("config/course").onSnapshot(function(s){if(s.exists&&s.data().label){S.course=s.data().label;setCourse()}},function(){});
