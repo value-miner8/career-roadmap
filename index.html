@@ -76,6 +76,15 @@ button{font:inherit;color:inherit;cursor:pointer}
 .stagehd span{font-size:14px}
 h2.ttl{font-family:var(--display);font-weight:400;color:var(--navy);text-align:center;font-size:clamp(26px,5.2vw,44px);line-height:1.25;margin:22px 0 26px;text-wrap:balance}
 .hint{margin:0 0 8px;font-size:15px}
+.tipbtn{border:1px solid var(--navy);background:transparent;color:var(--navy);border-radius:999px;padding:5px 14px;font-size:13.5px;font-weight:700;margin:0 0 10px;cursor:pointer}
+.tipbtn[aria-expanded="true"]{background:var(--navy);color:var(--bg)}
+.tipbox{border:1px solid var(--hair);background:var(--graybg);border-radius:10px;padding:6px 16px;margin:0 0 14px}
+.tiprow{display:flex;gap:14px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--hair)}
+.tiprow:first-child{border-top:0}
+.tiprow .lab{flex:0 0 auto;min-width:5.6em;text-align:center;border:1.5px solid var(--ink);border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;margin:1px 0 0}
+.tiprow .tx{flex:1;min-width:0;font-size:14.5px;line-height:1.65}
+.tiprow ol{margin:0;padding-left:1.3em}
+.tiprow s{color:var(--muted)}
 .quote{text-align:center;color:var(--muted);margin:26px 0 0;font-size:14px;text-wrap:balance}
 .tw{overflow-x:auto;padding-bottom:2px}
 table.rt{width:100%;min-width:640px;border-collapse:separate;border-spacing:2px;margin:0;table-layout:fixed}
@@ -311,15 +320,25 @@ var STG={
  1:{name:"커리어 로드맵 1단계 _ What",sub:"내가 세상에 내놓을 것은 무엇(What)인가?"},
  2:{name:"커리어 로드맵 2단계 _ Where",sub:"내 능력을 발휘할 수 있는 곳은 어디(Where)인가?"},
  3:{name:"커리어 로드맵 3단계 _ How",sub:"어떻게(How) 갈 것인가?"},
- sum:{name:"커리어 로드맵 그리기",sub:"지금까지 도출한 내용을 한 페이지에 모아 그려볼까요?"}
+ sum:{name:"커리어 로드맵 그리기",sub:"지금까지 도출한 내용을 한 페이지에 모아 그려볼까요?"},
+ howWork:{name:"커리어 로드맵 1단계 _ How",sub:"나는 지금까지 어떻게 일해 왔는가?"}
+};
+function stgOf(sec){return STG[sec.hd||sec.stage]}
+/* 활동지별 작성 팁: [라벨, 내용(html)] — 내용이 있는 활동지에만 [작성 팁 보기] 버튼이 나옵니다 */
+var TIPS={
+ career:[
+  ["왜 쓸까?","경력을 한 줄로 늘어놓아야, 내 일의 흐름이 보입니다."],
+  ["잘 쓰는 법","<ol><li>‘한 일’이 아니라 ‘바뀐 것’을 쓴다 — 숫자가 없으면 반응·변화로</li><li>퇴사사유는 솔직하게 — 다음 선택의 기준이 됩니다</li><li>짧게 다닌 곳, 쉬었던 기간도 빼지 않는다</li></ol>"],
+  ["이렇게!","<s>✕ 고객 관리 담당</s> → 고객 불만 처리 기간을 7일에서 3일로 줄임"]
+ ]
 };
 var SECS=[
  {id:"cover",stage:0,short:"표지",type:"cover",need:3,title:"표지"},
  {id:"intro",stage:0,short:"커리어로드맵이란",type:"intro",info:true,need:0,title:"커리어로드맵이란 무엇인가?"},
- {id:"career",stage:1,short:"경력",type:"table",need:4,title:"지금까지 어떻게 일해 왔는가?",hint:"아래 표에 자신이 일해 왔던 내용을 정리해 봅니다.",
+ {id:"career",stage:1,hd:"howWork",short:"경력",type:"table",need:4,title:"지금까지 어떻게 일해 왔는가?",hint:"아래 표에 자신이 일해 왔던 내용을 정리해 봅니다.",
   quote:"신이 우리를 이 땅에 태어나게 한 까닭을 밝히기 위해서는 신이 우리의 영혼에 놓아둔 주머니 속을 뒤져야 한다. _ 키에르케고르",
   cols:[{k:"period",label:"근무기간",w:"15%"},{k:"co",label:"기업명",w:"17%"},{k:"role",label:"직책/직무",w:"17%"},{k:"work",label:"주요수행업무 및 성과",w:"37%"},{k:"why",label:"퇴사사유",w:"14%"}],rows:4,addable:true},
- {id:"story",stage:1,short:"성공스토리",type:"table",need:5,title:"나만의 성공스토리",hint:"아래 표에 자신이 가장 큰 성취를 했던 경험에 대해서 구체적으로 정리해 봅니다.",
+ {id:"story",stage:1,hd:"howWork",short:"성공스토리",type:"table",need:5,title:"나만의 성공스토리",hint:"아래 표에 자신이 가장 큰 성취를 했던 경험에 대해서 구체적으로 정리해 봅니다.",
   rowHead:"구분",cols:[{k:"v",label:"내용"}],cw:["24%"],
   rows:[{k:"title",label:"제목",rtype:"text"},{k:"S",label:"상황(<b>S</b>ituation)"},{k:"T",label:"목표대상(<b>T</b>arget)"},{k:"A",label:"행동(<b>A</b>ction)"},{k:"R",label:"결과(<b>R</b>esult)"}]},
  {id:"sw",stage:1,short:"강점·약점",type:"table",need:6,title:"나는 무엇을 가진 사람인가?",hint:"아래 표에 자신의 What을 정리해 봅니다.",
@@ -645,14 +664,26 @@ function introEl(){
   if(sec.type==="cover"){
     var cv=h("section",{class:"slide","data-stage":"0"},coverEl(ctx));return cv;
   }
-  var st=STG[sec.stage];
+  var st=stgOf(sec);
   var s=h("section",{class:"slide","data-stage":String(sec.stage),"aria-labelledby":"t-"+sec.id},
     h("div",{class:"stagehd"},h("b",null,st.name),h("span",null,st.sub)),
     h("h2",{class:"ttl",id:"t-"+sec.id},sec.title),
     sec.hint?h("p",{class:"hint"},sec.hint):null,
+    S.capturing?null:tipEl(sec),
     bodyOf(sec,ctx),
     sec.quote?h("p",{class:"quote"},sec.quote.replace(" _ "," — ")):null);
   return s;
+}
+function tipEl(sec){
+  var tips=TIPS[sec.id];if(!tips)return null;
+  S.tipOpen=S.tipOpen||{};
+  var open=!!S.tipOpen[sec.id];
+  var box=h("div",{class:"tipbox",id:"tip-"+sec.id},tips.map(function(t){return h("div",{class:"tiprow"},h("span",{class:"lab"},t[0]),h("div",{class:"tx",html:t[1]}))}));
+  box.hidden=!open;
+  var btn=h("button",{class:"tipbtn",type:"button","aria-expanded":String(open),"aria-controls":"tip-"+sec.id,onclick:function(){
+    open=!open;S.tipOpen[sec.id]=open;box.hidden=!open;btn.setAttribute("aria-expanded",String(open));btn.textContent=open?"작성 팁 닫기 ▴":"작성 팁 보기 ▾";
+  }},open?"작성 팁 닫기 ▴":"작성 팁 보기 ▾");
+  return h("div",{class:"tipwrap"},btn,box);
 }
 
 /* ---------- participant view ---------- */
@@ -804,6 +835,7 @@ async function capturePages(d,name,progress){
   var host=h("div",{class:"print"});host.style.cssText="position:fixed;left:-20000px;top:0;width:1280px";
   document.body.append(host);
   var out=[],ctx=ctxOf({d:d});
+  S.capturing=true;
   try{
     for(var i=0;i<SECS.length;i++){
       progress(i+1,SECS.length);
@@ -815,7 +847,7 @@ async function capturePages(d,name,progress){
       var cv=await h2c(page,{scale:1.5,backgroundColor:"#ffffff",useCORS:true,logging:false});
       out.push({url:cv.toDataURL("image/jpeg",0.9),w:cv.width,h:cv.height});
     }
-  }finally{host.remove()}
+  }finally{host.remove();S.capturing=false}
   return out;
 }
 /* ---------- editable PPTX (native text boxes and tables) ---------- */
@@ -1045,7 +1077,7 @@ async function buildPptx(d,name,progress){
       s.addText("본 문서의 저작권은 윤코치연구소(www.yooncoach.com)에 있음을 공지합니다.",{x:0,y:7.1,w:13.333,h:0.4,fontFace:NF,fontSize:10,bold:true,color:PC.ink,align:"center",valign:"middle"});
     },
     base:function(sec,cont){
-      var s=pp.addSlide(),st=STG[sec.stage];made.push(s);
+      var s=pp.addSlide(),st=stgOf(sec);made.push(s);
       if(st&&st.name)s.addText([{text:st.name,options:{color:PC[sec.stage==="sum"?"sum":"s"+sec.stage],bold:true,fontSize:20}},{text:"    "+st.sub,options:{color:PC.ink,fontSize:12}}],{x:0.4,y:0.2,w:10.3,h:0.45,fontFace:NF,valign:"middle"});
       if(logo)s.addImage({data:logo,x:10.85,y:0.17,w:2.2,h:0.3});
       s.addText(sec.title+(cont?" (계속)":""),{x:PX,y:0.75,w:PW,h:0.8,fontFace:NF,fontSize:30,bold:true,color:PC.navy,align:"center",valign:"middle"});
